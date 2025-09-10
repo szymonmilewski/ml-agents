@@ -194,6 +194,8 @@ public class DungeonEscapeEnvController : MonoBehaviour
         m_GroundRenderer.material = m_GroundMaterial;
     }
 
+    //test comment
+
     public void BaddieTouchedBlock()
     {
         m_AgentGroup.EndGroupEpisode();
