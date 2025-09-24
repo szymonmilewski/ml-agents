@@ -95,3 +95,6 @@ coverage.xml
 /htmlcov/
 
 **/UserSettings/*
+
+# Python venv
+.venv/
