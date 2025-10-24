@@ -5,58 +5,45 @@ from tensorboard.backend.event_processing import event_accumulator
 
 
 def extract_metrics(run_id: str, output_csv: str = "prototype.csv") -> None:
-    """
-    Extract training metrics from a Unity ML-Agents run and save them to a CSV file.
-
-    Args:
-        run_id (str): The name of the run folder inside `results/`.
-                      Example: "smoke-3dball-2" will look in `results/smoke-3dball-2/`.
-        output_csv (str): Name of the output CSV file to save.
-                          It will be saved inside the run folder.
-
-    Returns:
-        None. A CSV file is written to disk.
-    """
-
-    logdir = os.path.join("results", run_id)
-
-    # Find TensorBoard event files (.tfevents.*). --> this file contains all the training logs
+    logdir = os.path.join("/Users/Sebastian/Documents/ml-agents/results", run_id)
     event_files = glob.glob(os.path.join(logdir, "**", "events.out.tfevents.*"), recursive=True)
 
     if not event_files:
         raise FileNotFoundError(f"No TensorBoard event files found under {logdir}")
 
     print(f"Found event file: {event_files[0]}")
-
     ea = event_accumulator.EventAccumulator(event_files[0])
     ea.Reload()
 
-    print("Available scalar keys:", ea.Tags()["scalars"]) #print the available for debugging
+    print("Available scalar keys:", ea.Tags()["scalars"])
 
-    steps, mean_rewards, episode_lengths = [], [], []
+    # Extract metrics
+    data = {"step": [], "mean_reward": [], "episode_length": [], "wall_time": []}
 
     for event in ea.Scalars("Environment/Cumulative Reward"):
-        steps.append(event.step)
-        mean_rewards.append(event.value)
+        data["step"].append(event.step)
+        data["mean_reward"].append(event.value)
+        data["wall_time"].append(event.wall_time)
 
     for event in ea.Scalars("Environment/Episode Length"):
-        episode_lengths.append(event.value)
+        data["episode_length"].append(event.value)
 
-    df = pd.DataFrame({
-        "step": steps,
-        "mean_reward": mean_rewards,
-        "episode_length": episode_lengths[:len(steps)]  # align length
-    })
+    if len(data["episode_length"]) != len(data["step"]):
+        print(f"Length mismatch: rewards={len(data['step'])}, episodes={len(data['episode_length'])}")
+        min_len = min(len(data["step"]), len(data["episode_length"]))
+        for key in data:
+            data[key] = data[key][:min_len]
 
-    df["std_reward"] = df["mean_reward"].rolling(5).std().fillna(0)
+    df = pd.DataFrame(data)
 
-    # Add a simple "time elapsed" index --> step index
-    df["time_elapsed"] = range(len(df))
+    df["time_elapsed"] = df["wall_time"] - df["wall_time"].iloc[0]
+    df = df.drop("wall_time", axis=1)
+
+    df["reward_rolling_std"] = df["mean_reward"].rolling(5, min_periods=1).std()
 
     out_path = os.path.join(logdir, output_csv)
     df.to_csv(out_path, index=False)
-    print(f"Prototype CSV saved at {out_path}")
-
+    print(f"✓ CSV saved: {out_path}")
 
 if __name__ == "__main__":
     import sys
