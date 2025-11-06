@@ -1,0 +1,29 @@
+{
+    "Crawler": {
+        "checkpoints": [
+            {
+                "steps": 50007,
+                "file_path": "results/smoke-crawler/Crawler/Crawler-50007.onnx",
+                "reward": 7.486839819466695,
+                "creation_time": 1759260442.2918432,
+                "auxillary_file_paths": [
+                    "results/smoke-crawler/Crawler/Crawler-50007.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 50007,
+            "file_path": "results/smoke-crawler/Crawler.onnx",
+            "reward": 7.486839819466695,
+            "creation_time": 1759260442.2918432,
+            "auxillary_file_paths": [
+                "results/smoke-crawler/Crawler/Crawler-50007.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.0.0",
+        "torch_version": "2.8.0"
+    }
+}
