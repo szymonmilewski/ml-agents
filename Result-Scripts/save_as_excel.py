@@ -1,13 +1,16 @@
 import pandas as pd
 from pathlib import Path
 
+#Load the CSV results
 src = Path("training_results_walker.csv")
 df = pd.read_csv(src)
 
+#Create the excel file
 numeric_cols = [c for c in df.columns if c != "Step"]
 df = df.sort_values("Step").reset_index(drop=True)
 df[numeric_cols] = df[numeric_cols].round(6)
 
+#Output the excel file
 out = src.with_suffix(".xlsx")
 with pd.ExcelWriter(out, engine="openpyxl") as xl:
     sheet = "Results"
@@ -27,4 +30,4 @@ with pd.ExcelWriter(out, engine="openpyxl") as xl:
             for cell in ws.iter_cols(min_col=j, max_col=j, min_row=2, max_row=ws.max_row):
                 for c in cell: c.number_format = "0.000000"
 
-print(f"✅ Excel saved -> {out}")
+print(f"Saved-> {out}")
