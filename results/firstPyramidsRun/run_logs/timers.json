@@ -1,0 +1,42 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1762890695",
+        "python_version": "3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Users\\Anna\\Documents\\UM\\Project 2-1\\ml-agents-develop\\ml-agents-develop\\newenv\\Scripts\\mlagents-learn config/ppo/Pyramids.yaml --run-id=firstPyramidsRun",
+        "mlagents_version": "1.1.0",
+        "mlagents_envs_version": "1.1.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "2.9.0+cpu",
+        "numpy_version": "1.23.5",
+        "end_time_seconds": "1762890726"
+    },
+    "total": 30.634334400005173,
+    "count": 1,
+    "self": 0.0075652000377886,
+    "children": {
+        "run_training.setup": {
+            "total": 0.1221444999682717,
+            "count": 1,
+            "self": 0.1221444999682717
+        },
+        "TrainerController.start_learning": {
+            "total": 30.504624699999113,
+            "count": 1,
+            "self": 0.00012689997674897313,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 30.504479499999434,
+                    "count": 1,
+                    "self": 30.504479499999434
+                },
+                "TrainerController._save_models": {
+                    "total": 1.8300022929906845e-05,
+                    "count": 1,
+                    "self": 1.8300022929906845e-05
+                }
+            }
+        }
+    }
+}
