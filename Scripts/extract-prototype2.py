@@ -119,10 +119,10 @@ def extract_metrics(run_id: str, output_csv: str = "prototype.csv") -> None:
 if __name__ == "__main__":
     import sys
 
-    # Get run_id from command line or use default
-    run_id = sys.argv[1] if len(sys.argv) > 1 else "smoke-3dball-2"
 
-    # Optional: specify custom output filename
+    run_id = sys.argv[1] if len(sys.argv) > 1 else "smoke-3dball-2" #run id from folder
+
+
     output_csv = sys.argv[2] if len(sys.argv) > 2 else "prototype.csv"
 
     print(f"Extracting metrics from run: {run_id}")
