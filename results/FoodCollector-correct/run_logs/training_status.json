@@ -1,0 +1,65 @@
+{
+    "GridFoodCollector": {
+        "checkpoints": [
+            {
+                "steps": 499960,
+                "file_path": "results/FoodCollector-correct/GridFoodCollector/GridFoodCollector-499960.onnx",
+                "reward": 22.63157894736842,
+                "creation_time": 1763503675.609214,
+                "auxillary_file_paths": [
+                    "results/FoodCollector-correct/GridFoodCollector/GridFoodCollector-499960.pt"
+                ]
+            },
+            {
+                "steps": 999960,
+                "file_path": "results/FoodCollector-correct/GridFoodCollector/GridFoodCollector-999960.onnx",
+                "reward": 53.1578947368421,
+                "creation_time": 1763504901.014202,
+                "auxillary_file_paths": [
+                    "results/FoodCollector-correct/GridFoodCollector/GridFoodCollector-999960.pt"
+                ]
+            },
+            {
+                "steps": 1499960,
+                "file_path": "results/FoodCollector-correct/GridFoodCollector/GridFoodCollector-1499960.onnx",
+                "reward": 61.31578947368421,
+                "creation_time": 1763506593.562355,
+                "auxillary_file_paths": [
+                    "results/FoodCollector-correct/GridFoodCollector/GridFoodCollector-1499960.pt"
+                ]
+            },
+            {
+                "steps": 1999960,
+                "file_path": "results/FoodCollector-correct/GridFoodCollector/GridFoodCollector-1999960.onnx",
+                "reward": 66.6842105263158,
+                "creation_time": 1763508919.34029,
+                "auxillary_file_paths": [
+                    "results/FoodCollector-correct/GridFoodCollector/GridFoodCollector-1999960.pt"
+                ]
+            },
+            {
+                "steps": 2001280,
+                "file_path": "results/FoodCollector-correct/GridFoodCollector/GridFoodCollector-2001280.onnx",
+                "reward": 66.85,
+                "creation_time": 1763508922.8792489,
+                "auxillary_file_paths": [
+                    "results/FoodCollector-correct/GridFoodCollector/GridFoodCollector-2001280.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 2001280,
+            "file_path": "results/FoodCollector-correct/GridFoodCollector.onnx",
+            "reward": 66.85,
+            "creation_time": 1763508922.8792489,
+            "auxillary_file_paths": [
+                "results/FoodCollector-correct/GridFoodCollector/GridFoodCollector-2001280.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.0.0",
+        "torch_version": "2.8.0"
+    }
+}
