@@ -5,6 +5,8 @@ import yaml
 import os
 import numpy as np
 import json
+import torch
+from torch.profiler import profile, record_function, ProfilerActivity
 
 from typing import Callable, Optional, List
 
@@ -132,9 +134,17 @@ def run_training(run_seed: int, options: RunOptions, num_areas: int) -> None:
             run_seed,
         )
 
-    # Begin training
+    # profiling with the tensor CHROME NOT TENSOR BOARD
+
+    profile_dir = os.path.join(checkpoint_settings.write_path, "profiling")
+    os.makedirs(profile_dir, exist_ok=True)
+
+    # training starting....
     try:
-        tc.start_learning(env_manager)
+        with profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
+            tc.start_learning(env_manager)
+
+        prof.export_chrome_trace(os.path.join(profile_dir, "trace.json"))
     finally:
         env_manager.close()
         write_run_options(checkpoint_settings.write_path, options)

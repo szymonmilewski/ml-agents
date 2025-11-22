@@ -72,7 +72,7 @@ setup(
         "attrs>=19.3.0",
         "huggingface_hub>=0.14",
         'pypiwin32==223;platform_system=="Windows"',
-        "onnx==1.12.0",
+        "onnx==1.13.0",
     ],
     python_requires=">=3.10.1,<=3.10.12",
     entry_points={

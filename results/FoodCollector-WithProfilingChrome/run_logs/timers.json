@@ -1,0 +1,75 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1763567989",
+        "python_version": "3.10.12 (main, Nov 19 2025, 15:48:23) [Clang 16.0.0 (clang-1600.0.26.4)]",
+        "command_line_arguments": "/Users/Sebastian/Documents/ml-agents/ml-agents/mlagents/trainers/learn.py /Users/Sebastian/Documents/ml-agents/config/ppo/FoodCollector.yaml --run-id=FoodCollector-WithProfilingChrome",
+        "mlagents_version": "1.0.0",
+        "mlagents_envs_version": "1.0.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "2.9.1",
+        "numpy_version": "1.23.5",
+        "end_time_seconds": "1763568132"
+    },
+    "total": 142.51714916713536,
+    "count": 1,
+    "self": 0.5344745421316475,
+    "children": {
+        "run_training.setup": {
+            "total": 0.017309374874457717,
+            "count": 1,
+            "self": 0.017309374874457717
+        },
+        "TrainerController.start_learning": {
+            "total": 141.96536525012925,
+            "count": 1,
+            "self": 0.0009835001546889544,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 20.897259708028287,
+                    "count": 1,
+                    "self": 20.897259708028287
+                },
+                "TrainerController.advance": {
+                    "total": 121.0424889170099,
+                    "count": 1,
+                    "self": 0.0004219592083245516,
+                    "children": {
+                        "env_step": {
+                            "total": 121.04206695780158,
+                            "count": 1,
+                            "self": 121.03162433276884,
+                            "children": {
+                                "SubprocessEnvManager._take_step": {
+                                    "total": 0.010442625032737851,
+                                    "count": 1,
+                                    "self": 5.63750509172678e-05,
+                                    "children": {
+                                        "TorchPolicy.evaluate": {
+                                            "total": 0.010386249981820583,
+                                            "count": 1,
+                                            "self": 0.010386249981820583
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "TrainerController._save_models": {
+                    "total": 0.02463312493637204,
+                    "count": 1,
+                    "self": 0.00022674980573356152,
+                    "children": {
+                        "RLTrainer._checkpoint": {
+                            "total": 0.02440637513063848,
+                            "count": 1,
+                            "self": 0.02440637513063848
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
