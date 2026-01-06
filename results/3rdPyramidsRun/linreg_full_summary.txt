@@ -1,0 +1,40 @@
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:      cumulative_reward   R-squared:                       1.000
+Model:                            OLS   Adj. R-squared:                  1.000
+Method:                 Least Squares   F-statistic:                 6.646e+27
+Date:                Tue, 06 Jan 2026   Prob (F-statistic):               0.00
+Time:                        16:28:11   Log-Likelihood:                 9615.9
+No. Observations:                 332   AIC:                        -1.921e+04
+Df Residuals:                     319   BIC:                        -1.916e+04
+Df Model:                          12                                         
+Covariance Type:            nonrobust                                         
+===============================================================================================
+                                  coef    std err          t      P>|t|      [0.025      0.975]
+-----------------------------------------------------------------------------------------------
+const                       -1.478e-12   8.11e-11     -0.018      0.985   -1.61e-10    1.58e-10
+step                         5.421e-20   4.07e-18      0.013      0.989   -7.96e-18    8.07e-18
+time_elapsed                 1.418e-17   1.16e-17      1.221      0.223   -8.67e-18     3.7e-17
+episode_length              -5.204e-18   2.68e-16     -0.019      0.985   -5.32e-16    5.21e-16
+extrinsic_reward                0.5000   3.02e-14   1.66e+13      0.000       0.500       0.500
+value_estimate               1.499e-15      6e-14      0.025      0.980   -1.16e-13    1.19e-13
+entropy                     -3.469e-15    6.4e-14     -0.054      0.957   -1.29e-13    1.22e-13
+policy_loss                  1.137e-13   2.18e-12      0.052      0.959   -4.18e-12    4.41e-12
+value_loss                  -1.066e-14   1.35e-12     -0.008      0.994   -2.67e-12    2.65e-12
+learning_rate                 1.33e-11   4.11e-12      3.236      0.001    5.21e-12    2.14e-11
+epsilon                      5.002e-12   4.03e-10      0.012      0.990   -7.88e-10    7.98e-10
+beta                         4.155e-11   4.11e-11      1.012      0.312   -3.92e-11    1.22e-10
+reward_rolling_mean          1.815e-14   9.17e-14      0.198      0.843   -1.62e-13    1.99e-13
+reward_rolling_std          -9.881e-15   1.07e-13     -0.093      0.926    -2.2e-13       2e-13
+episode_length_rolling_mean  6.158e-17   4.07e-16      0.151      0.880   -7.38e-16    8.62e-16
+==============================================================================
+Omnibus:                      236.028   Durbin-Watson:                   0.000
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):               25.037
+Skew:                          -0.269   Prob(JB):                     3.66e-06
+Kurtosis:                       1.767   Cond. No.                     3.21e+17
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The smallest eigenvalue is 1.08e-19. This might indicate that there are
+strong multicollinearity problems or that the design matrix is singular.
