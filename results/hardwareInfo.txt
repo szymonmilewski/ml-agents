@@ -1,0 +1,25 @@
+2026.01.11. 13:10
+
+{
+    "platform": "Windows",
+    "platform-release": "10",
+    "platform-version": "10.0.26200",
+    "architecture": "AMD64",
+    "hostname": "DESKTOP-GSI421R",
+    "ip-address": "192.168.56.1",
+    "mac-address": "84:2b:56:69:83:4d",
+    "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+    "ram": "15 GB",
+    "cpu-count": 12,
+    "boot-time": "2025-12-11 00:47:33",
+    "disk-partitions": [
+        "C:\\"
+    ],
+    "disk-total": "930.58 GB",
+    "disk-used": "568.43 GB",
+    "disk-free": "362.15 GB",
+    "disk-percent": "61.1%",
+    "cpu-usage": "2.6%"
+}
+
+(newenv) C:\Users\Anna\Documents\UM\Project 2-1\ml-agents-develop\ml-agents-develop>
