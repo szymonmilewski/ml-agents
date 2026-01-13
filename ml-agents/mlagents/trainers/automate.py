@@ -147,7 +147,7 @@ def run_trainings(
             new_run_id = f"{run_id}.{index}"
 
             print("="*90)
-            print("AUTOMATE STEP: Initiating training of ", path_to_file, " yaml", str(index), " /")
+            print("AUTOMATE STEP: Initiating training of ", path_to_file, " yaml", str(index))
             print("="*90)
 
             #Train using learn.py
