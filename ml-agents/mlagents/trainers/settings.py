@@ -1,3 +1,5 @@
+#Note: hyperparam class definitino at 165
+#Note: runoptions class at 866
 import os.path
 import warnings
 
@@ -33,18 +35,23 @@ from mlagents_envs.side_channel.environment_parameters_channel import (
 from mlagents.plugins import all_trainer_settings, all_trainer_types
 
 logger = logging_util.get_logger(__name__)
+#FUNCTIONS
+#----------
 
-
+#FUNCTION: checking the content of yaml and converting into objectified dictionary (we check if keys are pre-defined config params)
 def check_and_structure(key: str, value: Any, class_type: type) -> Any:
     attr_fields_dict = attr.fields_dict(class_type)
+    # CHECK IF KEY IS A VALID YAML PARAMETER (specified in attr_fields_dict) -> e.g. beta is in the dict, but "omega" isn't, so adding omega:5 would make an error
     if key not in attr_fields_dict:
         raise TrainerConfigError(
             f"The option {key} was specified in your YAML file for {class_type.__name__}, but is invalid."
         )
-    # Apply cattr structure to the values
+    # Apply cattr structure to the values => structures the data into dictionaries
+    # cattr -> converts unstructured data (classes, enumerations) into structured (dictionary)
+    # structure() -> converts into data that can be handled
     return cattr.structure(value, attr_fields_dict[key].type)
 
-
+#FUNCTION: sets beta & epsilon hyperparameters if not set (default)
 def check_hyperparam_schedules(val: Dict, trainer_type: str) -> Dict:
     # Check if beta and epsilon are set. If not, set to match learning rate schedule.
     if trainer_type == "ppo" or trainer_type == "poca":
@@ -67,7 +74,7 @@ def strict_to_cls(d: Mapping, t: type) -> Any:
         d_copy[key] = check_and_structure(key, val, t)
     return t(**d_copy)
 
-
+#FUNCTION: unstructures back into unstructurted data version 
 def defaultdict_to_dict(d: DefaultDict) -> Dict:
     return {key: cattr.unstructure(val) for key, val in d.items()}
 
@@ -83,6 +90,9 @@ def deep_update_dict(d: Dict, update_d: Mapping) -> None:
             d[key] = val
 
 
+
+#CLASSES
+#---------
 class SerializationSettings:
     convert_to_onnx = True
     onnx_opset = 9
@@ -152,7 +162,8 @@ class BehavioralCloningSettings:
     num_epoch: Optional[int] = None
     batch_size: Optional[int] = None
 
-
+#DEFINITION OF HYPERPARAMETERS -> MUTUAL AND OF/ON POL SPECIFIC 
+# hyperparams are a set of classes -> each attribute has a single value (not a tuple)
 @attr.s(auto_attribs=True)
 class HyperparamSettings:
     batch_size: int = 1024
@@ -851,7 +862,9 @@ class EngineSettings:
 class TorchSettings:
     device: Optional[str] = parser.get_default("device")
 
-
+#RUNOPTIONS CLASS
+##########################################################
+##########################################################
 @attr.s(auto_attribs=True)
 class RunOptions(ExportableSettings):
     default_settings: Optional[TrainerSettings] = None

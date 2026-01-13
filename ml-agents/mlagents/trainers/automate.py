@@ -1,0 +1,261 @@
+import yaml
+import itertools
+import copy
+import sys
+import csv
+import os
+import traceback
+from typing import Dict, Any, List
+from pathlib import Path
+from learn import automate_train
+from hw_stats import get_pc_stats
+
+###NOTE: STILL NEEDS DEBUGGING AND FINISHING UP, PUSHED JUST TO GIVE AN IDEA + FOR ADDITIONAL WORK
+
+#FUNCTION: opens a yaml file with hyperparameter (hp) ranges, loads as dict (settings)
+def yaml_to_dict(file_path: str) -> Dict[str,Any]:
+    try:
+        with open(file_path, "r", encoding="utf-8") as file:
+            settings = yaml.safe_load(file)
+        print("Loaded yaml to settings dict.")
+        return settings
+    except Exception:
+        print("Couldn't load yaml to settings.")
+        traceback.print_exc()
+        raise
+
+
+#FUNCTION: extracts the hyperparameter subdict (lists of hyperparams) from settings
+def extract_hp(settings: Dict[str, Any]) -> Dict[str, Any]:
+    try:
+        return next(iter(settings["behaviors"].values()))["hyperparameters"]
+    except Exception:
+        print("Couldn't extract hyperparameters from settings.")
+        print("Full traceback:")
+        traceback.print_exc()
+        raise
+
+#FUNCTION: gets the keys (attributes - hp names) from hyperparameter dictionary ~ used as columns in csv
+def get_ordered_keys(multi_yaml_path: Path) -> List[str]:
+    settings = yaml_to_dict(str(multi_yaml_path))
+    hp = extract_hp(settings)
+    return list(hp.keys())
+
+
+#FUNCTION: generates all possible hp combos -> dictionary of lists (one list - one hp combo)
+def generate_hp_combos(hp: Dict[str, List[Any]]) -> Dict[int, List[Any]]:
+    try:
+        print("Generating hp combinations...")
+        value_lists = []
+        #extract the lists of each hyperparameter values (e.g. list for alpha, beta, etc)
+        for key in hp:
+            value_lists.append(hp[key])
+        
+        #compute cartesian product of all the values in hp lists
+        value_combos = itertools.product(*value_lists)
+
+        #fill a dict of all hp_combos -> one list = one testable yaml file
+        hp_combos = {}
+        i = 1
+        for c in value_combos:
+            hp_combos[i] = list(c)
+            i += 1
+        print("Printing the resulting combos:")
+        print(hp_combos)
+        return hp_combos
+    except Exception as e:
+        print("Couldn't generate combinations.")
+        print("Exception type:", type(e).__name__)
+        print("Exception message:", e)
+        print("Full traceback:")
+        traceback.print_exc()
+        raise
+
+#FUNCTION: init_csv() -> initializes an empty csv file with columns 
+def init_csv(csv_doc: Path, hp_keys: List[str]): 
+
+    columns = [
+        "ID",
+        "cpu_type",
+        "cpu_cores",
+        "ram_gb",
+        "has_nvidia",
+        "nvidia_gpu_name",
+        "os",
+        *hp_keys,
+        "avg_ram_usage",
+        "num_epochs"
+    ]
+
+    with open(csv_doc, "w", newline="", encoding="utf-8") as file:
+        writer = csv.writer(file)
+        writer.writerow(columns)
+
+#FUNCTION: append a row representing data from single run of training 
+def append_data(
+        writer: csv.writer,
+        run_id: str,
+        hw_info: Dict[str,Any],
+        hp_values: List[Any],
+        avg_ram_usage: Any = 0,
+        num_epochs: Any = 0
+) -> None:
+    row = [
+        run_id,
+        hw_info["cpu_type"],
+        hw_info["cpu_cores"],
+        hw_info["ram_gb"],
+        hw_info["has_nvidia"],
+        hw_info["nvidia_gpu_name"],
+        hw_info["os_name"],
+        *hp_values,
+        avg_ram_usage,
+        num_epochs,
+    ]
+    writer.writerow(row)
+
+#FUNCTION: runs all trainings
+def run_trainings(
+        folder_path: Path,
+        run_id: str,
+        flags: List[str],
+        hp_keys: List[str],
+        csv_path: Path
+):
+    hw_info = get_pc_stats()
+    
+    #Prep yaml files + get counts
+    yaml_files = sorted(folder_path.glob(f"{run_id}.*.yaml"))
+    num_files = len(yaml_files)
+    finished_files = 0
+
+    if(num_files == 0):
+        print("No yaml files to train.")
+        return
+
+    with csv_path.open("a", newline="", encoding="utf-8") as results:
+        writer = csv.writer(results)
+
+        for file in yaml_files:
+            if not file.is_file():
+                continue
+
+
+            #Create new run id for indiviual yaml
+            path_to_file = file.resolve()
+            index = file.stem.split(".")[-1]
+            new_run_id = f"{run_id}.{index}"
+
+            print("="*90)
+            print("AUTOMATE STEP: Initiating training of ", path_to_file, " yaml", str(index), " /")
+            print("="*90)
+
+            #Train using learn.py
+            train_args = [str(path_to_file), new_run_id, *flags]
+            automate_train(train_args)
+
+            #Get the hp values for this training
+            run_config = yaml_to_dict(str(path_to_file))
+            run_hp = extract_hp(run_config)
+
+            hp_values = []
+            for key in hp_keys:
+                hp_values.append(run_hp[key])
+
+            #Write results into csv 
+            #TODO: extract epochs and mean RAM
+            append_data(writer, new_run_id, hw_info, hp_values, avg_ram_usage=0, num_epochs=0)
+            finished_files += 1
+        
+        print("="*90)
+        print("AUTOMATE STEP: Training of ", path_to_file, " finished.")
+        print("="*90)
+
+
+
+
+#FUNCTION: parses multi-hp yaml file -> generates x new .yaml files ~ all combos of hp's to be tested & returns path to yaml files folder
+def parse_multi_yaml(path: str, run_id: str):
+    #extract multi-hp yaml configs
+    settings = yaml_to_dict(path)
+    #extract hp from settings
+    hp = extract_hp(settings)
+    #generate all possible hp combos
+    hp_combos = generate_hp_combos(hp)
+    #create a folder for generated .yaml files -> folder in config folder (separate from poca, ppo etc.)
+    print("Creating path...")
+    path_to_result = Path(__file__).resolve().parents[2] / "config" / "multi" / run_id
+    path_to_result.mkdir(parents=True, exist_ok=True)
+    print("The path to folder: ", path_to_result)
+
+    print("Generating .yaml files....")
+    n = len(hp_combos)
+    try:
+        for i in range(1, n + 1):
+            #copy the original configuration & create separate hp dict
+            temp = copy.deepcopy(settings)
+            temp_hp = extract_hp(temp)
+            #get the current hp value combo
+            values = hp_combos[i]
+
+            #over-write the hp ranges with single values of the combo i 
+            k = 0
+            for parameter in temp_hp:
+                temp_hp[parameter] = values[k]
+                k += 1
+
+            #dump the new temp configs into yaml file in original yaml syntax
+            with open(path_to_result / f"{run_id}.{i}.yaml", "w", encoding="utf-8") as f:
+                yaml.safe_dump(temp, f, sort_keys=False)
+
+        return path_to_result
+    except Exception as e:
+        print("Couldn't generate combinations.")
+        print("Exception type:", type(e).__name__)
+        print("Exception message:", e)
+        print("Full traceback:")
+        traceback.print_exc()
+        raise
+
+
+#FUNCTION: main() -> entry point to the script, parses the multi-hp yaml file + runs learn.py on each combo
+def main():
+    #TODO: add logger to accommodate pause/resume of training scenario 
+    
+    if len(sys.argv) < 3:
+        print("Provide arguments in the form: <path_to_multi_hp_yaml> <run_id> <benchmark performance> [flags]")
+        sys.exit(2)
+
+    try:
+        #Get CL args
+        yaml_path = sys.argv[1]
+        run_id = sys.argv[2]
+        bench_reward = sys.argv[3]
+        flags = sys.argv[4:]
+
+        #Parse the multi-hp yaml, create combination yamls and get the path to their folder
+        folder_path = parse_multi_yaml(yaml_path, run_id)
+
+        #Get ordered hp keys
+        hp_keys = get_ordered_keys(Path(yaml_path))
+
+        #Create csv for result data, initialize with columns
+        result_path = folder_path / f"{run_id}.csv" 
+        init_csv(result_path, hp_keys)
+
+        #Train
+        print("Beginning automated training...")
+        run_trainings(folder_path, run_id, flags, hp_keys, result_path)
+        print("Finish all trainings.")
+
+    except Exception as e:
+        print("Exception type:", type(e).__name__)
+        print("Exception message:", e)
+        print("Full traceback:")
+        traceback.print_exc()
+
+
+if __name__ == "__main__":
+    main()
+
+

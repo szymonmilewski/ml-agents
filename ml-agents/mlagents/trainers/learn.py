@@ -48,14 +48,18 @@ def get_version_string() -> str:
   PyTorch: {torch_utils.torch.__version__}"""
 
 
+#the method responsible for accepting CL (learn command) -> REAS YAML FILE PATH, FLAGS, AND PARSES CONFIGS AND FLAGS INTO SINGLE SET OF OPTION OBJECTS used for training 
 def parse_command_line(
     argv: Optional[List[str]] = None,
 ) -> RunOptions:
     _, _ = register_trainer_plugins()
+    #parses yaml path + flgas
     args = parser.parse_args(argv)
-    return RunOptions.from_argparse(args)
+    #uses yaml file + flags to create running options (settings)
+    return RunOptions.from_argparse(args) #this part responsible for CLASSification of settings (hyperparams)
 
-
+#FUNCTION: training -> accepts RunOptions (params from yaml => single yaml)
+# note -> this is what should be called by a loop when doing grid analysis for each yaml combo params
 def run_training(run_seed: int, options: RunOptions, num_areas: int) -> None:
     """
     Launches training session.
@@ -141,7 +145,8 @@ def run_training(run_seed: int, options: RunOptions, num_areas: int) -> None:
         write_timing_tree(run_logs_dir)
         write_training_status(run_logs_dir)
 
-
+#FUNCTION: opens yaml file, saves to dict => dict of dicts 
+# keys: hyperparameters, network settings, trainer type, etc.
 def write_run_options(output_dir: str, run_options: RunOptions) -> None:
     run_options_path = os.path.join(output_dir, "configuration.yaml")
     try:
@@ -262,9 +267,15 @@ def run_cli(options: RunOptions) -> None:
         logger.debug(f"run_seed set to {run_seed}")
     run_training(run_seed, options, num_areas)
 
+#for an automation script to run for individual yamls
+def automate_train(argv: List[str]):
+    run_cli(parse_command_line(argv))
 
+#for running from CLI as intended 
 def main():
     run_cli(parse_command_line())
+
+
 
 
 # For python debugger to directly run this script
