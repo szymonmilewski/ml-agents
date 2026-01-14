@@ -5,7 +5,7 @@ from tensorboard.backend.event_processing import event_accumulator
 
 
 def extract_metrics(run_id: str, output_csv: str = "prototype.csv") -> None:
-    logdir = os.path.join("/Users/Sebastian/Documents/ml-agents/results", run_id)
+    logdir = os.path.join("/Users/Sebastian/PycharmProjects/ml-agents/results", run_id)
     event_files = glob.glob(os.path.join(logdir, "**", "events.out.tfevents.*"), recursive=True)
 
     if not event_files:
@@ -20,15 +20,6 @@ def extract_metrics(run_id: str, output_csv: str = "prototype.csv") -> None:
 
     metric_mapping = {
         "Environment/Cumulative Reward": "cumulative_reward",
-        "Environment/Episode Length": "episode_length",
-        "Policy/Entropy": "entropy",
-        "Policy/Extrinsic Value Estimate": "value_estimate",
-        "Policy/Extrinsic Reward": "extrinsic_reward",
-        "Losses/Policy Loss": "policy_loss",
-        "Losses/Value Loss": "value_loss",
-        "Policy/Learning Rate": "learning_rate",
-        "Policy/Epsilon": "epsilon",
-        "Policy/Beta": "beta"
     }
 
     # Initialize data dictionary with step and wall_time
@@ -78,25 +69,10 @@ def extract_metrics(run_id: str, output_csv: str = "prototype.csv") -> None:
     df = df.drop("wall_time", axis=1)
 
     df["reward_rolling_mean"] = df["cumulative_reward"].rolling(window=10, min_periods=1).mean()
-    df["reward_rolling_std"] = df["cumulative_reward"].rolling(window=10, min_periods=1).std()
-    df["episode_length_rolling_mean"] = df["episode_length"].rolling(window=10, min_periods=1).mean()
 
     column_order = [
         "step",
-        "time_elapsed",
         "cumulative_reward",
-        "episode_length",
-        "extrinsic_reward",
-        "value_estimate",
-        "entropy",
-        "policy_loss",
-        "value_loss",
-        "learning_rate",
-        "epsilon",
-        "beta",
-        "reward_rolling_mean",
-        "reward_rolling_std",
-        "episode_length_rolling_mean"
     ]
 
     column_order = [col for col in column_order if col in df.columns]
