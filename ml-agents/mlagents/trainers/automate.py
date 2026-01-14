@@ -9,6 +9,7 @@ from typing import Dict, Any, List
 from pathlib import Path
 from learn import automate_train
 from hw_stats import get_pc_stats
+from realTimeHardwareLogger import log_hw
 
 ###NOTE: STILL NEEDS DEBUGGING AND FINISHING UP, PUSHED JUST TO GIVE AN IDEA + FOR ADDITIONAL WORK
 
@@ -135,7 +136,7 @@ def run_trainings(
 
     with csv_path.open("a", newline="", encoding="utf-8") as results:
         writer = csv.writer(results)
-
+        log_hw()
         for file in yaml_files:
             if not file.is_file():
                 continue
