@@ -177,6 +177,7 @@ def run_trainings(
         flags: List[str],
         hp_keys: List[str],
         csv_path: Path,
+        build_exe: str,
         benchmark_reward: float
 
 ):
@@ -201,7 +202,6 @@ def run_trainings(
                 continue
             #mlagents-learn config/poca/DungeonEscape.yaml --run-id=my-dungeonescape-run
 
-
             #Create new run id for indiviual yaml
             path_to_file = file.resolve()
             print("Path to file: ", path_to_file)
@@ -215,7 +215,7 @@ def run_trainings(
             print("="*90)
 
             #Train using learn.py
-            train_args = [str(path_to_file), "--run-id", new_run_id, *flags]
+            train_args = [str(path_to_file), "--run-id", new_run_id, "--env", build_exe, *flags]
             print(train_args)
             automate_train(train_args)
 
@@ -318,7 +318,8 @@ def main():
         yaml_path = sys.argv[1]
         run_id = sys.argv[2]
         bench_reward = sys.argv[3]
-        flags = sys.argv[4:]
+        build_exe = sys.argv[4]
+        flags = sys.argv[5:]
 
         #Parse the multi-hp yaml, create combination yamls and get the path to their folder
         folder_path = parse_multi_yaml(yaml_path, run_id)
@@ -332,8 +333,7 @@ def main():
 
         #Train
         print("Beginning automated training...")
-        run_trainings(folder_path, run_id, flags, hp_keys, result_path,benchmark_reward=float(bench_reward)
-)
+        run_trainings(folder_path, run_id, flags, hp_keys, result_path,build_exe,benchmark_reward=float(bench_reward))
         print("Finish all trainings.")
 
     except Exception as e:
