@@ -1,3 +1,0 @@
-ID,cpu_type,cpu_cores,ram_gb,has_nvidia,nvidia_gpu_name,os,batch_size,buffer_size,learning_rate,beta,epsilon,lambd,num_epoch,learning_rate_schedule,avg_ram_usage,steps
-test10.1,arm,10,16,0,NO DEDICATED GPU,Darwin,32,256,0.0003,0.005,0.2,0.95,3,linear,0,-1
-test10.2,arm,10,16,0,NO DEDICATED GPU,Darwin,40,256,0.0003,0.005,0.2,0.95,3,linear,0,-1

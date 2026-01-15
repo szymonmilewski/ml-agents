@@ -3,14 +3,15 @@ import itertools
 import copy
 import sys
 import csv
-import os
-import subprocess
 import traceback
+import subprocess
+import time
 from extract_prototype2 import extract_metrics
 from typing import Dict, Any, List
 from pathlib import Path
 from learn import automate_train
 from hw_stats import get_pc_stats
+from realTimeHardwareLogger import get_RAM_numbers
 
 ###NOTE: STILL NEEDS DEBUGGING AND FINISHING UP, PUSHED JUST TO GIVE AN IDEA + FOR ADDITIONAL WORK
 
@@ -139,7 +140,9 @@ def init_csv(csv_doc: Path, hp_keys: List[str]):
         "nvidia_gpu_name",
         "os",
         *hp_keys,
-        "avg_ram_usage",
+        "ram_mb_used",
+        "ram_usage_percent",
+        "ram_avg_percent"
         "steps",
     ]
 
@@ -153,7 +156,9 @@ def append_data(
         run_id: str,
         hw_info: Dict[str,Any],
         hp_values: List[Any],
-        avg_ram_usage: Any = 0,
+        ram_mb_used: Any = 0,
+        ram_usage_percent: Any = 0,
+        ram_avg_percent: Any = 0,
         steps: Any = 0
 ) -> None:
     row = [
@@ -165,7 +170,9 @@ def append_data(
         hw_info["nvidia_gpu_name"],
         hw_info["os_name"],
         *hp_values,
-        avg_ram_usage,
+        ram_mb_used,
+        ram_usage_percent,
+        ram_avg_percent,
         steps,
     ]
     writer.writerow(row)
@@ -200,7 +207,6 @@ def run_trainings(
         for file in yaml_files:
             if not file.is_file():
                 continue
-            #mlagents-learn config/poca/DungeonEscape.yaml --run-id=my-dungeonescape-run
 
             #Create new run id for indiviual yaml
             path_to_file = file.resolve()
@@ -214,10 +220,31 @@ def run_trainings(
             print("AUTOMATE STEP: Initiating training of ", path_to_file, " yaml", str(index))
             print("="*90)
 
+
             #Train using learn.py
             train_args = [str(path_to_file), "--run-id", new_run_id, "--env", build_exe, *flags]
             print(train_args)
+            #Start the ram usage log
+            
+            ram_csv_name = (
+                Path(r"C:\Users\Sofie\Desktop\CSY2\AI PROJECT\repo\ml-agents\ml-agents\mlagents\trainers\hw")
+                / f"{new_run_id}.hardware_log.csv"
+            )   
+
+            logger_script = Path(__file__).resolve().parent / "realTimeHardwareLogger.py"
+
+            ram_log = subprocess.Popen(
+                [sys.executable, str(logger_script), str(ram_csv_name)],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE, 
+                text = True
+            )
+
+
             automate_train(train_args)
+            ram_log.terminate()
+
+            max_ram_mb, ram_usage_percent, ram_avg_percent = get_RAM_numbers(ram_csv_name)
 
             metrics_csv = extract_metrics(
                 run_id=new_run_id,
@@ -248,7 +275,9 @@ def run_trainings(
                 new_run_id,
                 hw_info,
                 hp_values,
-                avg_ram_usage=0,
+                max_ram_mb,
+                ram_usage_percent,
+                ram_avg_percent,
                 steps=step_at_benchmark
             )
 

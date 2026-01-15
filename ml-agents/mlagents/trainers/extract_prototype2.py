@@ -5,7 +5,7 @@ from tensorboard.backend.event_processing import event_accumulator
 
 
 def extract_metrics(run_id: str, output_csv: str = "prototype.csv") -> None:
-    logdir = os.path.join("/Users/Sebastian/PycharmProjects/ml-agents/results", run_id)
+    logdir = os.path.join("C:/Users/Sofie/Desktop/CSY2/AI PROJECT/repo/ml-agents/results", run_id)
     event_files = glob.glob(os.path.join(logdir, "**", "events.out.tfevents.*"), recursive=True)
 
     if not event_files:
