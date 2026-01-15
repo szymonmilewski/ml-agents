@@ -156,10 +156,12 @@ def init_csv(csv_doc: Path, hp_keys: List[str]):
     columns = [
         "ID",
         "cpu_type",
+        "cpu_freq"
         "cpu_cores",
         "ram_gb",
         "has_nvidia",
         "nvidia_gpu_name",
+        "nvidia_vram_gb",
         "os",
         *hp_keys,
         "ram_mb_used",
@@ -191,10 +193,12 @@ def append_data(
     row = [
         run_id,
         hw_info["cpu_type"],
+        hw_info["cpu_freq"],
         hw_info["cpu_cores"],
         hw_info["ram_gb"],
         hw_info["has_nvidia"],
         hw_info["nvidia_gpu_name"],
+        hw_info["nvidia_vram_gb"],
         hw_info["os_name"],
         *hp_values,
         ram_mb_used,
@@ -256,7 +260,11 @@ def run_trainings(
             #Start the ram usage log
 
             ram_csv_name = (
-                Path(r"/Users/Sebastian/PycharmProjects/ml-agents/ml-agents/mlagents/trainers/hw")
+                 Path.cwd()
+                / "ml-agents"
+                / "mlagents"
+                / "trainers"
+                / "hw"
                 / f"{new_run_id}.hardware_log.csv"
             )
 

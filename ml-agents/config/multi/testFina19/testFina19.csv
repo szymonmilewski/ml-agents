@@ -1,0 +1,3 @@
+ID,cpu_type,cpu_cores,ram_gb,has_nvidia,nvidia_gpu_name,nvidia_vram_gb,os,batch_size,buffer_size,learning_rate,beta,epsilon,lambd,num_epoch,learning_rate_schedule,ram_mb_used,ram_usage_percent,ram_avg_percent,benchmark_steps,benchmark_mean,benchmark_reached
+testFina19.1,12th Gen Intel(R) Core(TM) i7-12700H,20,16,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,16,256,0.0003,0.005,0.2,0.95,3,linear,11588.08,71.6,71.64,4000,0.43,True
+testFina19.10,12th Gen Intel(R) Core(TM) i7-12700H,20,16,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,32,256,0.0003,0.005,0.2,0.95,7,linear,11690.58,73.0,71.47,2000,0.765,True
