@@ -13,7 +13,6 @@ from learn import automate_train
 from hw_stats import get_pc_stats
 from realTimeHardwareLogger import get_RAM_numbers
 
-###NOTE: STILL NEEDS DEBUGGING AND FINISHING UP, PUSHED JUST TO GIVE AN IDEA + FOR ADDITIONAL WORK
 
 #FUNCTION: opens a yaml file with hyperparameter (hp) ranges, loads as dict (settings)
 def yaml_to_dict(file_path: str) -> Dict[str,Any]:

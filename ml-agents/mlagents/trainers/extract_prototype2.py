@@ -2,15 +2,13 @@ import os
 import glob
 import pandas as pd
 from tensorboard.backend.event_processing import event_accumulator
+from pathlib import Path
 
-import os
-import glob
-import pandas as pd
-from tensorboard.backend.event_processing import event_accumulator
-
+FILE_PATH = Path(__file__).resolve() 
+REPO = FILE_PATH.parents[3]
 
 def extract_metrics(run_id: str, output_csv: str = "prototype.csv", summary_freq: int = 2000):
-    logdir = os.path.join("/Users/Sebastian/PycharmProjects/ml-agents/results", run_id)
+    logdir = REPO / "results" / run_id
     event_files = glob.glob(os.path.join(logdir, "**", "events.out.tfevents.*"), recursive=True)
 
     if not event_files:
