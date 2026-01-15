@@ -3,96 +3,56 @@ import glob
 import pandas as pd
 from tensorboard.backend.event_processing import event_accumulator
 
+import os
+import glob
+import pandas as pd
+from tensorboard.backend.event_processing import event_accumulator
 
-def extract_metrics(run_id: str, output_csv: str = "prototype.csv") -> None:
-    logdir = os.path.join("C:/Users/Sofie/Desktop/CSY2/AI PROJECT/repo/ml-agents/results", run_id)
-    event_files = glob.glob(os.path.join(logdir, "**", "events.out.tfevents.*"), recursive=True)
+
+def extract_metrics(run_id: str, output_csv: str = "prototype.csv", summary_freq: int = 2000):
+    logdir = os.path.join("C:\Users\Sofie\Desktop\CSY2\AI PROJECT\repo\ml-agents\results", run_id)
+    event_files = glob.glob(os.path.join(logdir, "*", "events.out.tfevents."), recursive=True)
 
     if not event_files:
         raise FileNotFoundError(f"No TensorBoard event files found under {logdir}")
 
-    print(f"Found event file: {event_files[0]}")
     ea = event_accumulator.EventAccumulator(event_files[0])
     ea.Reload()
 
-    available_keys = ea.Tags()["scalars"]
-    print(f"Available scalar keys: {available_keys}")
+    if "Environment/Cumulative Reward" not in ea.Tags()["scalars"]:
+        raise ValueError("Missing Environment/Cumulative Reward")
 
-    metric_mapping = {
-        "Environment/Cumulative Reward": "cumulative_reward",
-    }
+    events = ea.Scalars("Environment/Cumulative Reward")
 
-    # Initialize data dictionary with step and wall_time
-    data = {"step": [], "wall_time": []}
+    df = pd.DataFrame(
+        [(e.step, e.value) for e in events],
+        columns=["step", "episode_reward"],
+    )
 
-    for csv_name in metric_mapping.values():
-        data[csv_name] = []
+    # Group by summary window (THIS is what ML-Agents does)
+    df["window"] = df["step"] // summary_freq
 
-    primary_key = "Environment/Cumulative Reward"
-    if primary_key in available_keys:
-        events = ea.Scalars(primary_key)
-        for event in events:
-            data["step"].append(event.step)
-            data["wall_time"].append(event.wall_time)
-            data[metric_mapping[primary_key]].append(event.value)
-    else:
-        raise ValueError(f"Primary metric '{primary_key}' not found in TensorBoard logs")
+    summary = (
+        df.groupby("window")
+        .agg(
+            step=("step", "max"),
+            mean_reward=("episode_reward", "mean"),
+            std_reward=("episode_reward", "std"),
+        )
+        .reset_index(drop=True)
+    )
 
-    num_steps = len(data["step"])
-    print(f"Total training steps found: {num_steps}")
-
-    # Extract all other metrics
-    for tb_key, csv_name in metric_mapping.items():
-        if tb_key == primary_key:
-            continue
-
-        if tb_key in available_keys:
-            events = ea.Scalars(tb_key)
-            values = [event.value for event in events]
-
-            if len(values) < num_steps:
-                print(f"Warning: {tb_key} has {len(values)} entries, padding to {num_steps}")
-                values.extend([None] * (num_steps - len(values)))
-            elif len(values) > num_steps:
-                print(f"Warning: {tb_key} has {len(values)} entries, truncating to {num_steps}")
-                values = values[:num_steps]
-
-            data[csv_name] = values
-        else:
-            print(f"Warning: {tb_key} not found in logs, filling with None")
-            data[csv_name] = [None] * num_steps
-
-    df = pd.DataFrame(data)
-
-    df["time_elapsed"] = df["wall_time"] - df["wall_time"].iloc[0]
-
-    df = df.drop("wall_time", axis=1)
-
-    df["reward_rolling_mean"] = df["cumulative_reward"].rolling(window=10, min_periods=1).mean()
-
-    column_order = [
-        "step",
-        "cumulative_reward",
-    ]
-
-    column_order = [col for col in column_order if col in df.columns]
-    df = df[column_order]
+    summary["mean_reward"] = summary["mean_reward"].round(3)
+    summary["std_reward"] = summary["std_reward"].round(3)
 
     out_path = os.path.join(logdir, output_csv)
-    df.to_csv(out_path, index=False)
+    summary.to_csv(out_path, index=False)
 
-    print(f"\n✓ CSV saved: {out_path}")
-    print(f"✓ Total rows: {len(df)}")
-    print(f"✓ Total columns: {len(df.columns)}")
-    print(f"\nColumn summary:")
-    print(df.describe())
-    print(f"\nFirst 5 rows:")
-    print(df.head())
-    print(f"\nLast 5 rows:")
-    print(df.tail())
+    print(f"✓ CSV saved: {out_path}")
+    return out_path
 
 
-if __name__ == "__main__":
+if __name__ == "_main_":
     import sys
 
 
