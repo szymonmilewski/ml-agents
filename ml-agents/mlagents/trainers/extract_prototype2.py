@@ -10,8 +10,8 @@ from tensorboard.backend.event_processing import event_accumulator
 
 
 def extract_metrics(run_id: str, output_csv: str = "prototype.csv", summary_freq: int = 2000):
-    logdir = os.path.join("C:\Users\Sofie\Desktop\CSY2\AI PROJECT\repo\ml-agents\results", run_id)
-    event_files = glob.glob(os.path.join(logdir, "*", "events.out.tfevents."), recursive=True)
+    logdir = os.path.join("/Users/Sebastian/PycharmProjects/ml-agents/results", run_id)
+    event_files = glob.glob(os.path.join(logdir, "**", "events.out.tfevents.*"), recursive=True)
 
     if not event_files:
         raise FileNotFoundError(f"No TensorBoard event files found under {logdir}")
@@ -29,7 +29,6 @@ def extract_metrics(run_id: str, output_csv: str = "prototype.csv", summary_freq
         columns=["step", "episode_reward"],
     )
 
-    # Group by summary window (THIS is what ML-Agents does)
     df["window"] = df["step"] // summary_freq
 
     summary = (

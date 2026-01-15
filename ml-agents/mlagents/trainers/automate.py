@@ -66,20 +66,43 @@ def csv_to_dict_list(file_path: str) -> List[Dict[str, Any]]:
         raise
 
 
-def find_step_at_benchmark(
-    rows: List[Dict[str, Any]],
-    benchmark_reward: float,
-    reward_key: str = "reward_rolling_mean"
-) -> int:
+def find_step_at_or_closest_to_benchmark(
+    rows,
+    benchmark_reward,
+    mean_key="mean_reward",
+    step_key="step",
+):
+    """
+    Returns:
+      (step, mean_reward, reached_threshold: bool)
+    """
+
+    best_row = None
+    best_diff = float("inf")
 
     for row in rows:
-        reward = row.get(reward_key)
-        step = row.get("step")
+        mean = row.get(mean_key)
+        step = row.get(step_key)
 
-        if reward is not None and reward >= benchmark_reward:
-            return step
+        if mean is None or step is None:
+            continue
 
-    return -1
+        # mean threshold reached
+        if mean >= benchmark_reward:
+            return step, mean, True
+
+        # track below threshold
+        diff = benchmark_reward - mean
+        if diff >= 0 and diff < best_diff:
+            best_diff = diff
+            best_row = row
+
+    if best_row is not None:
+        return best_row[step_key], best_row[mean_key], False
+
+    # No usable metrics at all
+    return -1, None, False
+
 
 
 #FUNCTION: extracts the hyperparameter subdict (lists of hyperparams) from settings
@@ -142,8 +165,10 @@ def init_csv(csv_doc: Path, hp_keys: List[str]):
         *hp_keys,
         "ram_mb_used",
         "ram_usage_percent",
-        "ram_avg_percent"
-        "steps",
+        "ram_avg_percent",
+        "benchmark_steps",
+        "benchmark_mean",
+        "benchmark_reached"
     ]
 
     with open(csv_doc, "w", newline="", encoding="utf-8") as file:
@@ -159,7 +184,10 @@ def append_data(
         ram_mb_used: Any = 0,
         ram_usage_percent: Any = 0,
         ram_avg_percent: Any = 0,
-        steps: Any = 0
+        benchmark_step: Any = 0,
+        benchmark_mean: Any = 0,
+        benchmark_reached: bool = False,
+
 ) -> None:
     row = [
         run_id,
@@ -173,7 +201,9 @@ def append_data(
         ram_mb_used,
         ram_usage_percent,
         ram_avg_percent,
-        steps,
+        benchmark_step,
+        benchmark_mean,
+        benchmark_reached,
     ]
     writer.writerow(row)
 
@@ -225,18 +255,18 @@ def run_trainings(
             train_args = [str(path_to_file), "--run-id", new_run_id, "--env", build_exe, *flags]
             print(train_args)
             #Start the ram usage log
-            
+
             ram_csv_name = (
-                Path(r"C:\Users\Sofie\Desktop\CSY2\AI PROJECT\repo\ml-agents\ml-agents\mlagents\trainers\hw")
+                Path(r"/Users/Sebastian/PycharmProjects/ml-agents/ml-agents/mlagents/trainers/hw")
                 / f"{new_run_id}.hardware_log.csv"
-            )   
+            )
 
             logger_script = Path(__file__).resolve().parent / "realTimeHardwareLogger.py"
 
             ram_log = subprocess.Popen(
                 [sys.executable, str(logger_script), str(ram_csv_name)],
                 stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE, 
+                stderr=subprocess.PIPE,
                 text = True
             )
 
@@ -254,12 +284,25 @@ def run_trainings(
             if metrics_csv is None:
                 print(f"[WARN] No metrics for run {new_run_id}, skipping benchmark step")
                 step_at_benchmark = -1
+                mean_at_step = None
+                reached = False
             else:
                 metrics_rows = csv_to_dict_list(str(metrics_csv))
-                step_at_benchmark = find_step_at_benchmark(
+                step_at_benchmark, mean_at_step, reached = find_step_at_or_closest_to_benchmark(
                     metrics_rows,
                     benchmark_reward=benchmark_reward
                 )
+
+                if reached:
+                    print(
+                        f"[OK] {new_run_id} reached benchmark "
+                        f"({mean_at_step} ≥ {benchmark_reward}) at step {step_at_benchmark}"
+                    )
+                else:
+                    print(
+                        f"[WARN] {new_run_id} did NOT reach benchmark. "
+                        f"Closest mean = {mean_at_step} at step {step_at_benchmark}"
+                    )
 
             #Get the hp values for this training
             run_config = yaml_to_dict(str(path_to_file))
@@ -278,7 +321,9 @@ def run_trainings(
                 max_ram_mb,
                 ram_usage_percent,
                 ram_avg_percent,
-                steps=step_at_benchmark
+                benchmark_step=step_at_benchmark,
+                benchmark_mean=mean_at_step,
+                benchmark_reached=reached,
             )
 
             finished_files += 1
