@@ -34,6 +34,9 @@ def forest(data):
 
     gridForest.fit(X_train, Y_train)
 
+    testAccuracy = gridForest.best_estimator_.score(X_test, Y_test)
+    print(f"Final test accuracy of gridsearch model: " + str(testAccuracy))
+
     return gridForest.best_estimator_
 
 
