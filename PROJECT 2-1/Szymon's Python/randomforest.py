@@ -3,6 +3,7 @@ import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
+import matplotlib.pyplot as plt 
 
 filename = ''
 data = pd.read_csv(filename)
@@ -38,6 +39,21 @@ def forest(data):
     print(f"Final test accuracy of gridsearch model: " + str(testAccuracy))
 
     return gridForest.best_estimator_
+
+
+
+def calculateFeatureImportance(data):
+    
+    randomForest = forest(data)
+    importance = randomForest.feature_importances_
+    X = data.drop(['output'], axis=1)
+
+    plt.bar(range(X.shape[1]), importance)
+    plt.xticks(range(X.shape[1]), data.feature_names, rotation=90)
+    plt.show()
+
+
+
 
 
 
