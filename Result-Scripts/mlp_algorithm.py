@@ -21,21 +21,40 @@ def load_run_csv(run_id: str, csv_name: str) -> pd.DataFrame:
     return pd.read_csv(csv_path)
 
 def select_target(df: pd.DataFrame) -> str:
-    return "reward_rolling_mean" if "reward_rolling_mean" in df.columns else "cumulative_reward"
+    if "reward_rolling_mean" in df.columns:
+        return "reward_rolling_mean"
+    if "mean_reward" in df.columns:
+        return "mean_reward"
+    if"cumulative_reward" in df.columns:
+        return "cumulative_reward"
+    raise ValueError("No valid reward column was found")
 
 def build_xy(df: pd.DataFrame, target: str):
     if "step" not in df.columns or target not in df.columns:
         raise ValueError(f"the CSV must contain 'step' and '{target}'")
     data = df[["step", target]].dropna()
-    X = data[["step"]].values
-    y = data[target].values
-    return X, y
+    step_values = data["step"].astype(float).to_numpy()
+    y = data[target].astype(float).to_numpy()
+    X = step_values.reshape(-1, 1)
+    return step_values, X, y
 
 def time_split(X, y, train_frac = 0.8):
     split_idx = int(len(X) * train_frac)
     if split_idx < 10 or (len(X) - split_idx) < 5:
         raise ValueError("Not enough samples for splitting")
     return X[:split_idx], X[split_idx:], y[:split_idx], y[split_idx:]
+
+def get_step_ticks(max_step: float) -> np.ndarray:
+    if max_step <=  1_000_000:
+        step = 100_000
+    elif max_step <= 5_000_000:
+        step = 500_000
+    elif max_step <= 10_000_000:
+        step = 1_000_000
+    else:
+        step = 2_500_000
+    ticks = np.arange(0.0, max_step + step, step, dtype = float)
+    return np.atleast_1d(ticks)
 
 def build_mlp_model(seed: int = 42) -> Pipeline:
     return Pipeline([
@@ -64,6 +83,8 @@ def evaluate(model: Pipeline, X_train, X_test, y_train, y_test):
         "train_rmse": float(np.sqrt(mean_squared_error(y_train, y_train_pred))),
         "test_rmse": float(np.sqrt(mean_squared_error(y_test, y_test_pred)))
     }
+    if np.var(y_test) < 1e-12:
+        metrics["test_r2"] = float("nan")
     return metrics
 
 def save_fit_plot(run_id: str, X_all, y_all, y_all_pred):
@@ -79,8 +100,9 @@ def save_fit_plot(run_id: str, X_all, y_all, y_all_pred):
     ax.grid(True, alpha = 0.3)
     ax.legend()
 
-    ax.ticklabel_format(style = "plain", axis = "x")
-    ticks = np.arange(0, float(np.max(X_all)) + 1, 2_500_000)
+    max_step = float(np.max(X_all))
+    ticks = get_step_ticks(max_step)
+
     ax.set_xticks(ticks)
     ax.xaxis.set_major_formatter(
         ticker.FuncFormatter(lambda x, _: f"{x/1e6:.1f}M")
@@ -103,8 +125,9 @@ def save_residuals_plot(run_id: str, X_all, residuals):
     ax.grid(True, alpha = 0.3)
     ax.legend()
 
-    ax.ticklabel_format(style = "plain", axis = "y")
-    ticks = np.arange(0, float(np.max(X_all)) + 1, 2_500_000)
+    max_step = float(np.max(X_all))
+    ticks = get_step_ticks(max_step)
+
     ax.set_xticks(ticks)
     ax.xaxis.set_major_formatter(
         ticker.FuncFormatter(lambda x, _: f"{x/1e6:.1f}M")
@@ -117,7 +140,7 @@ def save_residuals_plot(run_id: str, X_all, residuals):
 def analyze_mlp(run_id: str, csv_name: str = "prototype.csv") -> None:
     df = load_run_csv(run_id, csv_name)
     target = select_target(df)
-    X_all, y_all = build_xy(df, target)
+    steps, X_all, y_all = build_xy(df, target)
 
     X_train, X_test, y_train, y_test = time_split(X_all, y_all, train_frac = 0.8)
     model = build_mlp_model(seed = 42)
@@ -141,8 +164,8 @@ def analyze_mlp(run_id: str, csv_name: str = "prototype.csv") -> None:
     print(f"Test R^2: {metrics['test_r2']:.4f} Test RMSE: {metrics['test_rmse']:.4f}")
 
     y_all_pred = model.predict(X_all)
-    fit_path = save_fit_plot(run_id, X_all, y_all, y_all_pred)
-    res_path = save_residuals_plot(run_id, X_all, y_all - y_all_pred)
+    fit_path = save_fit_plot(run_id, steps, y_all, y_all_pred)
+    res_path = save_residuals_plot(run_id, steps, y_all - y_all_pred)
 
     print(f"\nSaved Plot: {fit_path}")
     print(f"Saved Plot: {res_path}")
