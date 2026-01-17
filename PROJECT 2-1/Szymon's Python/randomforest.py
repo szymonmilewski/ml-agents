@@ -1,60 +1,69 @@
 import pandas as pd 
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
-import matplotlib.pyplot as plt 
+from sklearn.model_selection import train_test_split
 
-filename = ''
-data = pd.read_csv(filename)
+path = [] #EDIT THIS IF YOU WANT TO RUN THE CODE
 
-def forest(data):
-    y = data['output']
-    X = data.drop(['output'], axis=1)
+def aggregate(data):
+    memory = []
 
-    X_train, X_test, Y_train, Y_test = train_test_split(X, y, test_size=0.2, random_state=101)
-
-    n_estimators = [int(x) for x in np.linspace(start = 10, stop = 200, num=10)]
-    max_features = ['sqrt', 'int', None]
-    max_depth = [2, 4, 6, 8]
-    min_samples_split = [2, 4, 5]
-    min_samples_leaf = [1, 2, 3]
-    bootstrap = [True, False]
-
-
-    parameter_grid = {'n_estimators': n_estimators,
-                    'max_features': max_features,
-                    'max_depth': max_depth,
-                    'min_samples_split': min_samples_split,
-                    'min_samples_leaf': min_samples_leaf,
-                    'bootstrap': bootstrap}
-
-    baseForest = RandomForestClassifier()
-
-    gridForest = GridSearchCV(estimator=baseForest, param_grid=parameter_grid, cv=8, verbose=2, n_jobs=4)
-
-    gridForest.fit(X_train, Y_train)
-
-    testAccuracy = gridForest.best_estimator_.score(X_test, Y_test)
-    print(f"Final test accuracy of gridsearch model: " + str(testAccuracy))
-
-    return gridForest.best_estimator_
-
-
-
-def calculateFeatureImportance(data):
+    for i in range (len(data)):
+        df = pd.read_csv(data[i])
+        memory.append(df)
     
-    randomForest = forest(data)
-    importance = randomForest.feature_importances_
-    X = data.drop(['output'], axis=1)
+    frame = pd.concat(memory, ignore_index=True)
 
-    plt.bar(range(X.shape[1]), importance)
-    plt.xticks(range(X.shape[1]), data.feature_names, rotation=90)
-    plt.show()
+    return frame
+
+def getData(data):
+    if isinstance(data, list):
+        df = aggregate(data)
+    else:
+        df = pd.read_csv(data)
+
+    df = df.select_dtypes(include=[np.number, float, bool])
+
+    df['benchmark_reached'] = df['benchmark_reached'].astype(int)
+
+    print(df)
+
+    X = df.iloc[:, :-1]
+    Y = df.iloc[:,-1]
+    return X, Y
+
+def bestForest():
+    X, Y = getData(path)
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y)
+    base = RandomForestClassifier()
+
+    parameter_grid = {
+        'max_depth': [None, 5, 10],
+        'min_samples_split': [2, 5, 10],
+        'min_samples_leaf': [1, 2, 4],
+        'max_features': ['sqrt', 'log2'],#, None],
+        'n_estimators': [i for i in range(100, 501, 100)]
+    }
+
+    tunedForest = GridSearchCV(base, parameter_grid, cv=2)
+    tunedForest.fit(X_train, Y_train)
+
+    bestModel = tunedForest.best_estimator_
+
+    print(Y_test)
+
+    print(f"Best params: {tunedForest.best_params_}")
+    print(f"Acc score: {bestModel.score(X_test, Y_test)}")
 
 
 
+    return tunedForest.best_estimator_
 
 
+def main():
+    getData(path)
+    bestForest()
 
-
+if __name__ == "__main__":
+    main()
