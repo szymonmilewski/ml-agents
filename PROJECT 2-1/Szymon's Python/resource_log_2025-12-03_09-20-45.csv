@@ -1,3 +1,0 @@
-Timestamp,CPU_Usage_percent,CPU_Avg_percent,RAM_Usage_percent,RAM_Avg_percent,RAM_Used_MB,Disk_Read_MBps,Disk_Write_MBps,Disk_Read_Avg_MBps,Disk_Write_Avg_MBps,Net_Sent_KBps,Net_Recv_KBps,Net_Sent_Avg_KBps,Net_Recv_Avg_KBps
-2025-12-03 09:20:50,17.4,17.4,77.8,77.8,6400.08,6.19,0.47,6.19,0.47,4.8,6.79,4.8,6.79
-2025-12-03 09:20:55,10.9,14.15,77.4,77.6,6336.17,7.97,0.19,7.08,0.33,3.6,4.0,4.2,5.39
