@@ -42,7 +42,7 @@ def bestForest():
         'max_depth': [None, 5, 10],
         'min_samples_split': [2, 5, 10],
         'min_samples_leaf': [1, 2, 4],
-        'max_features': ['sqrt', 'log2'],#, None],
+        'max_features': ['sqrt', 'log2', None],
         'n_estimators': [i for i in range(100, 501, 100)]
     }
 
