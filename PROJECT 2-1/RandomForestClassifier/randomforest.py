@@ -5,10 +5,11 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt 
 from sklearn.inspection import permutation_importance
+import os
 
-path = ["/Users/szymonmilewski/Documents/Unity/ml-agents/PROJECT 2-1/Szymon's Python/BasicPP0Beta.2.SS.csv", "/Users/szymonmilewski/Documents/Unity/ml-agents/PROJECT 2-1/Szymon's Python/BasicPPO.2.SS.csv"] #EDIT THIS IF YOU WANT TO RUN THE CODE
+path = [] #EDIT THIS IF YOU WANT TO RUN THE CODE
 
-def aggregate(data):
+def aggregateList(data):
     memory = []
 
     for i in range (len(data)):
@@ -18,6 +19,16 @@ def aggregate(data):
     frame = pd.concat(memory, ignore_index=True)
 
     return frame
+
+def aggregateDir(data):
+    memory = []
+    for file in os.listdir(data):
+        if file.endswith(".csv"):
+            fullPath = os.path.join(data, file)
+            df = pd.read_csv(fullPath)
+            memory.append(df)
+
+    frame = pd.concat(memory, ignore_index=True)
 
 def getFeatureScores(X: list, Y: list,forest: RandomForestClassifier):
     df = pd.DataFrame(X)
@@ -46,12 +57,11 @@ def getFeatureScores(X: list, Y: list,forest: RandomForestClassifier):
     
     plt.show()
 
-
-
-
 def getData(data):
     if isinstance(data, list):
-        df = aggregate(data)
+        df = aggregateList(data)
+    elif os.path.isdir(data):
+        df = aggregateDir(data)
     else:
         df = pd.read_csv(data)
 
