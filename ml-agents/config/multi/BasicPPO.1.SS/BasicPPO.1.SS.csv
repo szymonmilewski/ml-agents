@@ -1,0 +1,2 @@
+ID,cpu_type,cpu_freqcpu_cores,ram_gb,has_nvidia,nvidia_gpu_name,nvidia_vram_gb,os,batch_size,buffer_size,learning_rate,beta,epsilon,lambd,num_epoch,learning_rate_schedule,ram_mb_used,ram_usage_percent,ram_avg_percent,benchmark_steps,benchmark_mean,benchmark_reached
+BasicPPO.1.SS.1,Apple M4,unknown,10,16.0,False,,,Darwin,16,256,0.0003,0.005,0.2,0.95,3,linear,5946.73,79.6,78.76,12000,0.93,True

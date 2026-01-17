@@ -1,0 +1,1 @@
+ID,cpu_type,cpu_cores,ram_gb,has_nvidia,nvidia_gpu_name,os,batch_size,buffer_size,learning_rate,beta,epsilon,lambd,num_epoch,learning_rate_schedule,avg_ram_usage,steps

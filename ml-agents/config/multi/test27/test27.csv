@@ -1,0 +1,10 @@
+ID,cpu_type,cpu_cores,ram_gb,has_nvidia,nvidia_gpu_name,os,batch_size,buffer_size,learning_rate,beta,epsilon,lambd,num_epoch,learning_rate_schedule,avg_ram_usage,steps
+test27.1,arm,10,16,0,NO DEDICATED GPU,Darwin,10,100,0.0003,0.005,0.2,0.95,1,linear,0,-1
+test27.10,arm,10,16,0,NO DEDICATED GPU,Darwin,10,150,0.0003,0.005,0.2,0.95,4,linear,0,8000
+test27.100,arm,10,16,0,NO DEDICATED GPU,Darwin,20,300,0.0003,0.005,0.2,0.95,4,linear,0,12000
+test27.101,arm,10,16,0,NO DEDICATED GPU,Darwin,20,300,0.0003,0.005,0.2,0.95,5,linear,0,12000
+test27.102,arm,10,16,0,NO DEDICATED GPU,Darwin,20,300,0.0003,0.005,0.2,0.95,6,linear,0,12000
+test27.103,arm,10,16,0,NO DEDICATED GPU,Darwin,20,350,0.0003,0.005,0.2,0.95,1,linear,0,-1
+test27.104,arm,10,16,0,NO DEDICATED GPU,Darwin,20,350,0.0003,0.005,0.2,0.95,2,linear,0,22000
+test27.105,arm,10,16,0,NO DEDICATED GPU,Darwin,20,350,0.0003,0.005,0.2,0.95,3,linear,0,14000
+test27.106,arm,10,16,0,NO DEDICATED GPU,Darwin,20,350,0.0003,0.005,0.2,0.95,4,linear,0,12000

@@ -1,0 +1,3 @@
+ID,cpu_type,cpu_cores,ram_gb,has_nvidia,nvidia_gpu_name,os,batch_size,buffer_size,learning_rate,beta,epsilon,lambd,num_epoch,learning_rate_schedule,ram_mb_used,ram_usage_percent,ram_avg_percent,benchmark_steps,benchmark_mean,benchmark_reached
+test34.1,arm,10,16,0,NO DEDICATED GPU,Darwin,32,256,0.0003,0.005,0.2,0.95,3,linear,6602.97,74.1,74.8,20000,0.913,False
+test34.2,arm,10,16,0,NO DEDICATED GPU,Darwin,40,256,0.0003,0.005,0.2,0.95,3,linear,6605.42,73.6,75.9,18000,0.751,False
