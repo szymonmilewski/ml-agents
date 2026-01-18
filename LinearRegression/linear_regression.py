@@ -282,15 +282,18 @@ def predict_ram_for_config(config_path, model_path=None):
     missing_features = []
     
     for feature in feature_columns:
-        if feature in flat_config:
-            try:
-                # Convert to numeric values if possible
-                value = float(flat_config[feature])
-                config_features[feature] = value
-            except (ValueError, TypeError):
-                print(f"Warning: could not convert {feature}={flat_config[feature]} to a numeric value")
-                missing_features.append(feature)
-        else:
+        found = False
+        for flat_key, flat_value in flat_config.items():
+            if flat_key.endswith(f"_{feature}") or flat_key == feature:
+                try:
+                    value = float(flat_value)
+                    config_features[feature] = value
+                    found = True
+                    break
+                except (ValueError, TypeError):
+                    pass
+        
+        if not found:
             missing_features.append(feature)
     
     if missing_features:
@@ -305,10 +308,11 @@ def predict_ram_for_config(config_path, model_path=None):
         else:
             X_config.append(0)  # set to 0 for missing features (this is what the warning was about)
     
-    X_config = np.array(X_config).reshape(1, -1)
+    # Convert to DataFrame to preserve feature names (avoids sklearn warnings)
+    X_config_df = pd.DataFrame([X_config], columns=feature_columns)
     
     # Standardize features using trained scaler (trained in analyze_ram_usage function)
-    X_config_scaled = scaler.transform(X_config)
+    X_config_scaled = scaler.transform(X_config_df)
     
     # Make the prediction
     predicted_ram = model.predict(X_config_scaled)[0]
@@ -328,11 +332,25 @@ def predict_ram_for_config(config_path, model_path=None):
     # Based on coefficients in linreg formula, print which features contributed most to the prediction
     print(f"\nFeature contributions:")
     feature_contributions = X_config_scaled[0] * model.coef_
-    contribution_data = list(zip(feature_columns, X_config[0], feature_contributions))
+    contribution_data = list(zip(feature_columns, X_config_df.values[0], feature_contributions))
     contribution_data.sort(key=lambda x: abs(x[2]), reverse=True)
     
     for feature, value, contrib in contribution_data[:5]:  # list top 5 contributors
         print(f"  {feature}: {value} → {contrib:+.1f} MB")
+
+    output_dir = Path(config_path).parent / "ram_predictions"
+    output_dir.mkdir(exist_ok=True)
+    
+    prediction_file = output_dir / f"{config_path.stem}_prediction.txt"
+    with open(prediction_file, 'w', encoding='utf-8') as f:
+        f.write(f"Config: {config_path.name}\n")
+        f.write(f"Predicted RAM: {predicted_ram:.0f} MB ({predicted_ram/1024:.2f} GB)\n")
+        f.write(f"Model R²: {model_data['r2_score']:.4f}\n")
+        f.write(f"\nTop feature contributions:\n")
+        for feature, value, contrib in contribution_data[:5]:
+            f.write(f"  {feature}: {value} → {contrib:+.1f} MB\n")
+    
+    print(f"\nPrediction saved to: {prediction_file}")
     
     return predicted_ram
 
