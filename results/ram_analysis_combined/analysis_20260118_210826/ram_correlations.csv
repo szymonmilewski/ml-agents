@@ -1,0 +1,17 @@
+Feature,Correlation,Abs_Correlation
+ram_avg_percent,0.9228876181962209,0.9228876181962209
+ram_usage_percent,0.8873109883745081,0.8873109883745081
+benchmark_mean,-0.26245643233433236,0.26245643233433236
+benchmark_steps,-0.17314776964599665,0.17314776964599665
+batch_size,-0.13838923992437469,0.13838923992437469
+num_epoch,-0.100902654243455,0.100902654243455
+cpu_type,,
+cpu_freqcpu_cores,,
+ram_gb,,
+has_nvidia,,
+nvidia_vram_gb,,
+buffer_size,,
+learning_rate,,
+beta,,
+epsilon,,
+lambd,,

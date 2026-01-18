@@ -1,0 +1,23 @@
+Analysis Run: 20260118_211223
+================================================================================
+
+Source files:
+  - ml-agents/config/multi/BasicPPO.1.AK/BasicPPO.1.AK.csv
+  - ml-agents/config/multi/BasicPPO.2.AK/BasicPPO.2.AK.csv
+  - ml-agents/config/multi/BasicPPO.4.AK/BasicPPO.4.AK.csv
+  - ml-agents/config/multi/BasicPPOEpsilon.1.AK/BasicPPOEpsilon.1.AK.csv
+  - ml-agents/config/multi/BasicPPOEpsilon.2.AK/BasicPPOEpsilon.2.AK.csv
+  - ml-agents/config/multi/BasicPPOEpsilon.3.AK/BasicPPOEpsilon.3.AK.csv
+  - ml-agents/config/multi/BasicPPOEpsilon.4.AK/BasicPPOEpsilon.4.AK.csv
+
+Total runs: 150
+Experiments combined: 7
+
+Runs per experiment:
+  BasicPPO.1.AK: 9 runs
+  BasicPPO.2.AK: 20 runs
+  BasicPPO.4.AK: 20 runs
+  BasicPPOEpsilon.1.AK: 21 runs
+  BasicPPOEpsilon.2.AK: 62 runs
+  BasicPPOEpsilon.3.AK: 5 runs
+  BasicPPOEpsilon.4.AK: 13 runs

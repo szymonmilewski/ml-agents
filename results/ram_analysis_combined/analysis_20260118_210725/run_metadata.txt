@@ -1,0 +1,13 @@
+Analysis Run: 20260118_210725
+================================================================================
+
+Source files:
+  - ml-agents/config/multi/3DBallPPO.1.AK/3DBallPPO.1.AK.csv
+  - ml-agents/config/multi/3DBallPPO.2.AK/3DBallPPO.2.AK.csv
+
+Total runs: 22
+Experiments combined: 2
+
+Runs per experiment:
+  3DBallPPO.1.AK: 2 runs
+  3DBallPPO.2.AK: 20 runs

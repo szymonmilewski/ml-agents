@@ -1,0 +1,4 @@
+Hyperparameter,Coefficient,P_Value,Significant
+epsilon,73.40779703319244,0.5420178383096554,False
+num_epoch,-65.49523051699056,0.584398829331302,False
+batch_size,-37.86164482561408,0.7531339936010761,False
