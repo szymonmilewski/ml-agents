@@ -15,7 +15,7 @@ import pickle
 
 # Then, predict the RAM for a config with "python linear_regression.py --predict <config.yaml> [model.pkl]"
 
-def analyze_ram_usage(csv_path):
+def analyze_ram_usage(csv_path, output_dir=None):
    
     # Load data
     df = pd.read_csv(csv_path)
@@ -144,8 +144,12 @@ def analyze_ram_usage(csv_path):
         print(f"  -> No, because the model only explains {r2*100:.1f}% of variance, so these tested hyperparameters can't predict well the RAM usage")
     
     # Save results
-    output_dir = Path(csv_path).parent / "ram_analysis"
-    output_dir.mkdir(exist_ok=True)
+    if output_dir is None:
+        output_dir = Path(csv_path).parent / "ram_analysis"
+    else:
+        output_dir = Path(output_dir)
+    
+    output_dir.mkdir(exist_ok=True, parents=True)
     results.to_csv(output_dir / "regression_results.csv", index=False)
     print(f"\nResults were saved to: {output_dir / 'regression_results.csv'}")
     
