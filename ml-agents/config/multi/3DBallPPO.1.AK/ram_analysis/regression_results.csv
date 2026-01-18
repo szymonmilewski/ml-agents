@@ -1,0 +1,3 @@
+Hyperparameter,Coefficient,P_Value,Significant
+batch_size,-1145.7400000000002,,False
+num_epoch,-1145.74,,False

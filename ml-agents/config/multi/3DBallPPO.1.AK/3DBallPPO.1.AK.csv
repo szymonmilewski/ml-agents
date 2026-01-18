@@ -1,0 +1,3 @@
+ID,cpu_type,cpu_freqcpu_cores,ram_gb,has_nvidia,nvidia_gpu_name,nvidia_vram_gb,os,batch_size,buffer_size,learning_rate,beta,epsilon,lambd,num_epoch,learning_rate_schedule,ram_mb_used,ram_usage_percent,ram_avg_percent,benchmark_steps,benchmark_mean,benchmark_reached
+3DBallPPO.1.AK.1,AMD Ryzen 5 5600GT with Radeon Graphics,3.59,12,15,0,NO DEDICATED GPU,0.0,Windows,16,12000,0.0003,0.001,0.2,0.99,3,linear,12573.7,48.9,50.52,108000,100.0,True
+3DBallPPO.1.AK.10,AMD Ryzen 5 5600GT with Radeon Graphics,3.59,12,15,0,NO DEDICATED GPU,0.0,Windows,32,12000,0.0003,0.001,0.2,0.99,7,linear,7990.74,50.2,48.94,168000,100.0,True
