@@ -1,11 +1,11 @@
 # DISCLAIMER: This is not the official Unity ML-Agents repository. 
-This is a forked version of the original repository for university research purposes. To see the official source, click [here](https://github.com/Unity-Technologies/ml-agents).
+**This is a forked version of the original repository. This repository is only being used for university research purposes. To see the official source, click** [here](https://github.com/Unity-Technologies/ml-agents).
 <br>
 
 The results of our experiments are easily reproducible using the code provided in the repository. All of our data was gathered using our automatic data collection script, as the models take an incredibly long time to train and they need data somewhat representative of the real world.
 
-In order to run our own automated data collection framework:
-Navigate to the game example scene that you want to collect data from. Then, go to Unity -> Build Settings, then select your platform (Intel, macOS Apple Silicon, macOS Intel, AMD...). Click Build, and select a directory where the build will be stored. Then, run the following commands:
+## In order to run our own automated data collection framework:
+Navigate to the game example scene that you want to collect data from. Then, go to Unity -> Build Settings and select your platform (Intel, macOS Apple Silicon, macOS Intel, AMD...). Click Build, and select a directory where the build will be stored. Then, run the following commands in your terminal (you must be in the repository directory):
 <br>
 **macOS:**
 
@@ -13,15 +13,21 @@ Navigate to the game example scene that you want to collect data from. Then, go 
 
 
 
-In order to run our machine learning models:
+## In order to run our machine learning models:
+Navigate to the *MachineLearningModels* directory in the repository.
 <br>
-**Random Forest Classifier** - navigate to the PROJECT 2-1 folder in the repository and open the .py file. Copy the file/directory path that you want to train the classifier on. Paste that into the "path" list at the top of the file, where you see the comment. Then click Run. If everything was executed correctly, you will see your provisional test set classifier accuracy appear in the command line.
-<br>
+
+**RandomForestClassifier** - select the corresponding folder in the directory and enter the .py file. If you wish to run the data on a whole directory, copy its absolute path and paste it into the "path" list object at the top of the file. If you wish to run the classifier on just a couple files, copy each file's absolute path and paste it into the list using a comma separator. Then, run the application.
 
 **Linear Regression** - 
 
-**Multi-Layer Perceptron** - 
+**Multi-Layer Perceptron** - Enter the MLP Algorithm directory. Depending on your python version, the command will begin either with python or python3. The command is as follows: 
 <br>
+
+*python3 mlp_algorithm.py source destination*
+
+Source is the data that you want to input into the model, and destination is where you want the results to be saved (.csv file).
+
 # Unity ML-Agents Toolkit
 
 [![docs badge](https://img.shields.io/badge/docs-reference-blue.svg)](https://github.com/Unity-Technologies/ml-agents/tree/release_21_docs/docs/)
