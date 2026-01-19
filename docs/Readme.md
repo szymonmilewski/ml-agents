@@ -1,17 +1,27 @@
 # DISCLAIMER: This is not the official Unity ML-Agents repository. 
 This is a forked version of the original repository for university research purposes. To see the official source, click [here](https://github.com/Unity-Technologies/ml-agents).
+<br>
+
+The results of our experiments are easily reproducible using the code provided in the repository. All of our data was gathered using our automatic data collection script, as the models take an incredibly long time to train and they need data somewhat representative of the real world.
 
 In order to run our own automated data collection framework:
-Navigate to the game example scene that you want to collect the data from. Then, go to Unity -> Build Settings, then select your platform (Intel, macOS Apple Silicon, macOS Intel, AMD...). Click Build, and select a directory where the build will be stored. Then, run the following commands:
-macOS:
+Navigate to the game example scene that you want to collect data from. Then, go to Unity -> Build Settings, then select your platform (Intel, macOS Apple Silicon, macOS Intel, AMD...). Click Build, and select a directory where the build will be stored. Then, run the following commands:
+<br>
+**macOS:**
 
-Windows:
+**Windows:**
 
 
 
-In order to run our classifiers:
-Random Forest Classifier - navigate to the PROJECT 2-1 folder in the repository and open the .py file. Copy the file/directory path that you want to train the classifier on. Paste that into the "path" list at the top of the file, where you see the comment. Then click Run. If everything was executed correctly, you will see your provisional test set classifier accuracy appear in the command line.
+In order to run our machine learning models:
+<br>
+**Random Forest Classifier** - navigate to the PROJECT 2-1 folder in the repository and open the .py file. Copy the file/directory path that you want to train the classifier on. Paste that into the "path" list at the top of the file, where you see the comment. Then click Run. If everything was executed correctly, you will see your provisional test set classifier accuracy appear in the command line.
+<br>
 
+**Linear Regression** - 
+
+**Multi-Layer Perceptron** - 
+<br>
 # Unity ML-Agents Toolkit
 
 [![docs badge](https://img.shields.io/badge/docs-reference-blue.svg)](https://github.com/Unity-Technologies/ml-agents/tree/release_21_docs/docs/)
