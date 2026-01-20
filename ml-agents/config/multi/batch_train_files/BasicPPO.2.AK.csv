@@ -1,0 +1,21 @@
+ID,cpu_type,cpu_freqcpu_cores,ram_gb,has_nvidia,nvidia_gpu_name,nvidia_vram_gb,os,batch_size,buffer_size,learning_rate,beta,epsilon,lambd,num_epoch,learning_rate_schedule,ram_mb_used,ram_usage_percent,ram_avg_percent,benchmark_steps,benchmark_mean,benchmark_reached
+BasicPPO.2.AK.1,AMD Ryzen 5 5600GT with Radeon Graphics,3.59,12,15,0,NO DEDICATED GPU,0.0,Windows,16,256,0.0003,0.005,0.2,0.95,3,linear,9967.96,63.3,59.35,12000,0.93,True
+BasicPPO.2.AK.10,AMD Ryzen 5 5600GT with Radeon Graphics,3.59,12,15,0,NO DEDICATED GPU,0.0,Windows,32,256,0.0003,0.005,0.2,0.95,7,linear,10210.93,60.4,61.52,10000,0.93,True
+BasicPPO.2.AK.11,AMD Ryzen 5 5600GT with Radeon Graphics,3.59,12,15,0,NO DEDICATED GPU,0.0,Windows,64,256,0.0003,0.005,0.2,0.95,3,linear,10293.97,64.7,62.43,32000,0.93,True
+BasicPPO.2.AK.12,AMD Ryzen 5 5600GT with Radeon Graphics,3.59,12,15,0,NO DEDICATED GPU,0.0,Windows,64,256,0.0003,0.005,0.2,0.95,4,linear,10198.61,60.4,62.86,22000,0.93,True
+BasicPPO.2.AK.13,AMD Ryzen 5 5600GT with Radeon Graphics,3.59,12,15,0,NO DEDICATED GPU,0.0,Windows,64,256,0.0003,0.005,0.2,0.95,5,linear,9590.68,60.7,60.34,20000,0.93,True
+BasicPPO.2.AK.14,AMD Ryzen 5 5600GT with Radeon Graphics,3.59,12,15,0,NO DEDICATED GPU,0.0,Windows,64,256,0.0003,0.005,0.2,0.95,6,linear,9531.73,59.2,59.48,14000,0.93,True
+BasicPPO.2.AK.15,AMD Ryzen 5 5600GT with Radeon Graphics,3.59,12,15,0,NO DEDICATED GPU,0.0,Windows,64,256,0.0003,0.005,0.2,0.95,7,linear,10008.31,56.7,58.02,14000,0.93,True
+BasicPPO.2.AK.16,AMD Ryzen 5 5600GT with Radeon Graphics,3.59,12,15,0,NO DEDICATED GPU,0.0,Windows,128,256,0.0003,0.005,0.2,0.95,3,linear,9104.43,57.1,55.75,86000,0.93,True
+BasicPPO.2.AK.17,AMD Ryzen 5 5600GT with Radeon Graphics,3.59,12,15,0,NO DEDICATED GPU,0.0,Windows,128,256,0.0003,0.005,0.2,0.95,4,linear,10086.76,59.6,59.78,42000,0.93,True
+BasicPPO.2.AK.18,AMD Ryzen 5 5600GT with Radeon Graphics,3.59,12,15,0,NO DEDICATED GPU,0.0,Windows,128,256,0.0003,0.005,0.2,0.95,5,linear,9270.07,56.2,56.3,30000,0.93,True
+BasicPPO.2.AK.19,AMD Ryzen 5 5600GT with Radeon Graphics,3.59,12,15,0,NO DEDICATED GPU,0.0,Windows,128,256,0.0003,0.005,0.2,0.95,6,linear,9289.63,56.9,56.33,30000,0.93,True
+BasicPPO.2.AK.2,AMD Ryzen 5 5600GT with Radeon Graphics,3.59,12,15,0,NO DEDICATED GPU,0.0,Windows,16,256,0.0003,0.005,0.2,0.95,4,linear,9277.57,58.3,57.1,10000,0.93,True
+BasicPPO.2.AK.20,AMD Ryzen 5 5600GT with Radeon Graphics,3.59,12,15,0,NO DEDICATED GPU,0.0,Windows,128,256,0.0003,0.005,0.2,0.95,7,linear,9240.97,57.1,57.76,28000,0.93,True
+BasicPPO.2.AK.3,AMD Ryzen 5 5600GT with Radeon Graphics,3.59,12,15,0,NO DEDICATED GPU,0.0,Windows,16,256,0.0003,0.005,0.2,0.95,5,linear,9784.66,59.7,58.64,8000,0.93,True
+BasicPPO.2.AK.4,AMD Ryzen 5 5600GT with Radeon Graphics,3.59,12,15,0,NO DEDICATED GPU,0.0,Windows,16,256,0.0003,0.005,0.2,0.95,6,linear,9533.76,60.4,59.45,8000,0.93,True
+BasicPPO.2.AK.5,AMD Ryzen 5 5600GT with Radeon Graphics,3.59,12,15,0,NO DEDICATED GPU,0.0,Windows,16,256,0.0003,0.005,0.2,0.95,7,linear,10954.77,69.2,61.95,10000,0.93,True
+BasicPPO.2.AK.6,AMD Ryzen 5 5600GT with Radeon Graphics,3.59,12,15,0,NO DEDICATED GPU,0.0,Windows,32,256,0.0003,0.005,0.2,0.95,3,linear,12069.3,72.8,72.31,16000,0.93,True
+BasicPPO.2.AK.7,AMD Ryzen 5 5600GT with Radeon Graphics,3.59,12,15,0,NO DEDICATED GPU,0.0,Windows,32,256,0.0003,0.005,0.2,0.95,4,linear,12254.72,72.9,73.5,18000,0.93,True
+BasicPPO.2.AK.8,AMD Ryzen 5 5600GT with Radeon Graphics,3.59,12,15,0,NO DEDICATED GPU,0.0,Windows,32,256,0.0003,0.005,0.2,0.95,5,linear,11715.62,73.6,73.05,14000,0.93,True
+BasicPPO.2.AK.9,AMD Ryzen 5 5600GT with Radeon Graphics,3.59,12,15,0,NO DEDICATED GPU,0.0,Windows,32,256,0.0003,0.005,0.2,0.95,6,linear,12070.18,72.6,73.29,10000,0.07,False

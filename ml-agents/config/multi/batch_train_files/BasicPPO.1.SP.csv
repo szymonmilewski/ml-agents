@@ -1,0 +1,21 @@
+ID,cpu_type,cpu_freqcpu_cores,ram_gb,has_nvidia,nvidia_gpu_name,nvidia_vram_gb,os,batch_size,buffer_size,learning_rate,beta,epsilon,lambd,num_epoch,learning_rate_schedule,ram_mb_used,ram_usage_percent,ram_avg_percent,benchmark_steps,benchmark_mean,benchmark_reached
+BasicPPO.1.SP.1,12th Gen Intel(R) Core(TM) i7-12700H,2.69,20,16,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,16,256,0.0003,0.005,0.2,0.95,3,linear,13192.88,71.6,72.92,12000,0.93,True
+BasicPPO.1.SP.10,12th Gen Intel(R) Core(TM) i7-12700H,2.69,20,16,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,32,256,0.0003,0.005,0.2,0.95,7,linear,11869.74,73.7,73.74,10000,0.93,True
+BasicPPO.1.SP.11,12th Gen Intel(R) Core(TM) i7-12700H,2.69,20,16,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,64,256,0.0003,0.005,0.2,0.95,3,linear,12147.75,74.9,74.51,28000,0.93,True
+BasicPPO.1.SP.12,12th Gen Intel(R) Core(TM) i7-12700H,2.69,20,16,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,64,256,0.0003,0.005,0.2,0.95,4,linear,11963.7,72.2,73.41,20000,0.93,True
+BasicPPO.1.SP.13,12th Gen Intel(R) Core(TM) i7-12700H,2.69,20,16,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,64,256,0.0003,0.005,0.2,0.95,5,linear,11523.42,70.7,70.93,16000,0.93,True
+BasicPPO.1.SP.14,12th Gen Intel(R) Core(TM) i7-12700H,2.69,20,16,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,64,256,0.0003,0.005,0.2,0.95,6,linear,11436.05,70.9,70.9,16000,0.93,True
+BasicPPO.1.SP.15,12th Gen Intel(R) Core(TM) i7-12700H,2.69,20,16,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,64,256,0.0003,0.005,0.2,0.95,7,linear,11418.36,71.3,71.2,14000,0.93,True
+BasicPPO.1.SP.16,12th Gen Intel(R) Core(TM) i7-12700H,2.69,20,16,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,128,256,0.0003,0.005,0.2,0.95,3,linear,11549.04,69.3,70.22,50000,0.93,True
+BasicPPO.1.SP.17,12th Gen Intel(R) Core(TM) i7-12700H,2.69,20,16,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,128,256,0.0003,0.005,0.2,0.95,4,linear,11613.76,66.0,68.42,40000,0.93,True
+BasicPPO.1.SP.18,12th Gen Intel(R) Core(TM) i7-12700H,2.69,20,16,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,128,256,0.0003,0.005,0.2,0.95,5,linear,10876.16,67.9,67.32,28000,0.93,True
+BasicPPO.1.SP.19,12th Gen Intel(R) Core(TM) i7-12700H,2.69,20,16,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,128,256,0.0003,0.005,0.2,0.95,6,linear,11279.7,69.0,68.3,26000,0.93,True
+BasicPPO.1.SP.2,12th Gen Intel(R) Core(TM) i7-12700H,2.69,20,16,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,16,256,0.0003,0.005,0.2,0.95,4,linear,11369.5,70.3,69.64,10000,0.93,True
+BasicPPO.1.SP.20,12th Gen Intel(R) Core(TM) i7-12700H,2.69,20,16,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,128,256,0.0003,0.005,0.2,0.95,7,linear,11399.55,71.2,70.55,22000,0.93,True
+BasicPPO.1.SP.3,12th Gen Intel(R) Core(TM) i7-12700H,2.69,20,16,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,16,256,0.0003,0.005,0.2,0.95,5,linear,11493.5,71.0,70.62,10000,0.93,True
+BasicPPO.1.SP.4,12th Gen Intel(R) Core(TM) i7-12700H,2.69,20,16,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,16,256,0.0003,0.005,0.2,0.95,6,linear,11654.19,70.4,71.65,8000,0.93,True
+BasicPPO.1.SP.5,12th Gen Intel(R) Core(TM) i7-12700H,2.69,20,16,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,16,256,0.0003,0.005,0.2,0.95,7,linear,11819.77,72.5,72.43,8000,0.93,True
+BasicPPO.1.SP.6,12th Gen Intel(R) Core(TM) i7-12700H,2.69,20,16,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,32,256,0.0003,0.005,0.2,0.95,3,linear,12074.23,74.1,73.98,20000,0.93,True
+BasicPPO.1.SP.7,12th Gen Intel(R) Core(TM) i7-12700H,2.69,20,16,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,32,256,0.0003,0.005,0.2,0.95,4,linear,11899.05,74.2,73.88,14000,0.93,True
+BasicPPO.1.SP.8,12th Gen Intel(R) Core(TM) i7-12700H,2.69,20,16,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,32,256,0.0003,0.005,0.2,0.95,5,linear,12606.43,68.8,75.52,2000,0.578,False
+BasicPPO.1.SP.9,12th Gen Intel(R) Core(TM) i7-12700H,2.69,20,16,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,32,256,0.0003,0.005,0.2,0.95,6,linear,11115.38,69.4,69.09,10000,0.93,True
