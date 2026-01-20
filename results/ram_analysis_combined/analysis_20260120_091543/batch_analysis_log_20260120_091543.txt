@@ -1,0 +1,55 @@
+Batch Linear Regression Analysis Started: 2026-01-20 09:15:43
+Scanning folder: ml-agents/config/multi/batch_train_files
+Found 13 CSV files:
+  - ml-agents\config\multi\batch_train_files\BasicPP0Beta.2.SS.csv
+  - ml-agents\config\multi\batch_train_files\BasicPP0Epsilon.7.SS.csv
+  - ml-agents\config\multi\batch_train_files\BasicPPO.1.AK.csv
+  - ml-agents\config\multi\batch_train_files\BasicPPO.1.SP.csv
+  - ml-agents\config\multi\batch_train_files\BasicPPO.2.AK.csv
+  - ml-agents\config\multi\batch_train_files\BasicPPO.2.SS.csv
+  - ml-agents\config\multi\batch_train_files\BasicPPO.4.AK.csv
+  - ml-agents\config\multi\batch_train_files\BasicPPOEpsilon.1.AK.csv
+  - ml-agents\config\multi\batch_train_files\BasicPPOEpsilon.2.AK.csv
+  - ml-agents\config\multi\batch_train_files\BasicPPOEpsilon.3.AK.csv
+  - ml-agents\config\multi\batch_train_files\BasicPPOEpsilon.4.AK.csv
+  - ml-agents\config\multi\batch_train_files\BasicPPOEpsilon.5.AK.csv
+  - ml-agents\config\multi\batch_train_files\BasicPPOEpsilon.6.AK.csv
+
+Combined analysis across multiple runs
+Combined dataset: 356 total training runs from 13 experiments
+Runs per experiment:
+  batch_train_files: 356 runs
+
+Results will be saved to: results\ram_analysis_combined\analysis_20260120_091543
+Combined CSV saved to: results\ram_analysis_combined\analysis_20260120_091543\combined_runs.csv
+Unified LinReg Analysis
+Correlation analysis
+Correlation with RAM usage (ram_mb_used):
+--------------------------------------------------
+  cpu_freqcpu_cores            0.652 (Moderate positive)
+  has_nvidia                   0.324 (Weak positive)
+  epsilon                      0.239 (Weak positive)
+  benchmark_mean              -0.021 (Weak negative)
+  num_epoch                   -0.027 (Weak negative)
+  batch_size                  -0.072 (Weak negative)
+  beta                        -0.163 (Weak negative)
+  benchmark_steps             -0.170 (Weak negative)
+  ram_usage_percent           -0.461 (Moderate negative)
+  ram_avg_percent             -0.475 (Moderate negative)
+  ram_gb                      -0.754 (Strong negative)
+  buffer_size                    nan (Weak negative)
+  learning_rate                  nan (Weak negative)
+  lambd                          nan (Weak negative)
+RAM correlations saved to: results\ram_analysis_combined\analysis_20260120_091543\ram_correlations.csv
+Full correlation matrix saved to: results\ram_analysis_combined\analysis_20260120_091543\correlation_matrix.csv
+Run metadata saved to: results\ram_analysis_combined\analysis_20260120_091543\run_metadata.txt
+Conclusions across runs:
+Based on 356 combined training runs from 13 experiments,
+we can identify which hyperparameters consistently affect RAM usage by checking
+  - statistically significant hyperparameters (p < 0.05)
+  - the amount the hyperparameters effect RAM (coefficients)
+  - overall prediction accuracy (R²)
+  - visual plots in: results/ram_analysis_combined/ folder
+
+All results saved in: results\ram_analysis_combined\analysis_20260120_091543
+Batch analysis log saved to: results\ram_analysis_combined\analysis_20260120_091543\batch_analysis_log_20260120_091543.txt

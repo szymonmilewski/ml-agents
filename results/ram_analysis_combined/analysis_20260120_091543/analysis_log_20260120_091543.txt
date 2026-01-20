@@ -1,0 +1,43 @@
+Linear Regression Analysis Started: 2026-01-20 09:15:43
+Input CSV: results\ram_analysis_combined\analysis_20260120_091543\combined_runs.csv
+Output Directory: results\ram_analysis_combined\analysis_20260120_091543
+Loaded 356 training runs
+
+Hyperparameters found: ['batch_size', 'buffer_size', 'learning_rate', 'beta', 'epsilon', 'lambd', 'num_epoch', 'learning_rate_schedule', 'source_run']
+
+Analyzing: ['batch_size', 'beta', 'epsilon', 'num_epoch']
+Samples: 356
+
+Linreg analysis of RAM Usage Prediction
+
+Prediction accuracy:
+  R-squared: 0.0841
+  So, the model explains 8.4% of variance in RAM usage
+Model has weak predictive power -> other factors likely matter more
+
+Prediction is based on this calculation:
+  RAM (MB) = 7822.80 -1.61*batch_size -242.35*beta +9639.22*epsilon -34.22*num_epoch
+
+Hyperparam effects:
+Hyperparameter        Coefficient      P-Value   Sig
+----------------------------------------------------------------------
+epsilon                    546.78       0.0000   ***
+beta                      -342.32       0.0062    **
+batch_size                 -76.90       0.5369      
+num_epoch                  -49.26       0.6751      
+
+Significance: *** p<0.001, ** p<0.01, * p<0.05
+
+Significant variables (p < 0.05):
+  epsilon: Increases RAM usage
+  Coefficient: 546.78 MB per unit
+  beta: Decreases RAM usage
+  Coefficient: -342.32 MB per unit
+Can we predict the average amount of RAM used during agent training?
+  -> No, because the model only explains 8.4% of variance, so these tested hyperparameters can't predict well the RAM usage
+
+Results were saved to: results\ram_analysis_combined\analysis_20260120_091543\regression_results.csv
+Prediction accuracy plot saved to: results\ram_analysis_combined\analysis_20260120_091543\prediction_accuracy.png
+Residual plot saved to: results\ram_analysis_combined\analysis_20260120_091543\residual_plot.png
+Trained model saved to: results\ram_analysis_combined\analysis_20260120_091543\trained_model.pkl
+Analysis log saved to: results\ram_analysis_combined\analysis_20260120_091543\analysis_log_20260120_091543.txt

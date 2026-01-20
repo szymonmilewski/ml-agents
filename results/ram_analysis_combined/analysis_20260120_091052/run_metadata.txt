@@ -1,0 +1,15 @@
+Analysis Run: 20260120_091052
+================================================================================
+
+Source folder: ml-agents/config/multi/batch_train_files
+CSV files found:
+  - ml-agents\config\multi\batch_train_files\BasicPP0Beta.2.SS.csv
+  - ml-agents\config\multi\batch_train_files\BasicPP0Epsilon.7.SS.csv
+  - ml-agents\config\multi\batch_train_files\BasicPPO.1.SP.csv
+  - ml-agents\config\multi\batch_train_files\BasicPPO.2.SS.csv
+
+Total runs: 195
+Experiments combined: 4
+
+Runs per experiment:
+  batch_train_files: 195 runs
