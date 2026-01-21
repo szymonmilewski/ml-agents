@@ -165,7 +165,7 @@ def analyze_ram_usage(csv_path, output_dir=None, use_percentage=False):
     # Print out the formula of the prediction
     log_and_print(f"  {target_name} ({target_unit}) = {' '.join(formula_parts)}")
     
-    # Coefficient table - shows both hyperparameters AND hardware
+    # Coefficient table - show both hyperparameters AND hardware
     log_and_print(f"\nHyperparameter effects (controlling for hardware):")
     log_and_print(f"{'Hyperparameter':<20} {'Coefficient':>12} {'P-Value':>12} {'Sig':>5}")
     log_and_print("-"*70)
@@ -466,4 +466,7 @@ if __name__ == "__main__":
             print(f"Error: File not found: {csv_path}")
             sys.exit(1)
         
-        analyze_ram_usage(csv_path)
+        # Check for --percentage flag
+        use_percentage = '--percentage' in sys.argv
+        
+        analyze_ram_usage(csv_path, use_percentage=use_percentage)
