@@ -1,3 +1,6 @@
+# The final version of this product is at the FINAL PRODUCT branch.
+You can access it [here.](https://github.com/szymonmilewski/ml-agents/tree/FINAL-PRODUCT)
+
 # Unity ML-Agents Toolkit
 
 [![docs badge](https://img.shields.io/badge/docs-reference-blue.svg)](https://github.com/Unity-Technologies/ml-agents/tree/release_21_docs/docs/)
