@@ -1,0 +1,3 @@
+Hardware,Coefficient,P_Value,Significant
+ram_gb,2213.199207209876,2.220446049250313e-16,True
+has_nvidia,1889.5508535156227,1.5958345755962e-12,True

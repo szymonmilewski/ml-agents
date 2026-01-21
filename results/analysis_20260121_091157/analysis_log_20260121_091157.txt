@@ -1,0 +1,50 @@
+Linear Regression Analysis Started: 2026-01-21 09:11:57
+Input CSV: results\ram_analysis_combined\analysis_20260121_091157\combined_runs.csv
+Output Directory: results\ram_analysis_combined\analysis_20260121_091157
+Loaded 496 training runs
+
+Hyperparameters found: ['batch_size', 'buffer_size', 'learning_rate', 'beta', 'epsilon', 'lambd', 'num_epoch', 'learning_rate_schedule', 'source_run']
+
+Analyzing hyperparameters: ['batch_size', 'beta', 'epsilon', 'num_epoch']
+Controlling for hardware: ['ram_gb', 'has_nvidia']
+Samples: 496
+
+Linreg analysis of RAM Usage % Prediction
+
+Prediction accuracy:
+  R-squared: 0.3974
+  So, the model explains 39.7% of variance in RAM Usage %
+Model has weak predictive power -> other factors likely matter more
+
+Prediction is based on this calculation:
+  RAM Usage % (%) = 85.83 -0.00*batch_size +0.27*beta -18.78*epsilon +0.09*num_epoch -0.92*ram_gb -0.69*has_nvidia
+
+Hyperparameter effects (controlling for hardware):
+Hyperparameter        Coefficient      P-Value   Sig
+----------------------------------------------------------------------
+epsilon                     -1.05       0.0079    **
+beta                         0.32       0.4120      
+num_epoch                    0.12       0.7415      
+batch_size                  -0.03       0.9446      
+
+
+Hardware control variables:
+Hardware              Coefficient      P-Value   Sig
+----------------------------------------------------------------------
+ram_gb                      -6.38       0.0000   ***
+has_nvidia                  -0.32       0.7382      
+
+Significance: *** p<0.001, ** p<0.01, * p<0.05
+
+Significant hyperparameters (p < 0.05), after controlling for hardware:
+  epsilon: Decreases RAM usage
+  Coefficient: -1.05 MB per unit
+Can we predict the average amount of RAM used during agent training?
+  -> Partially. We can predict 39.7% of RAM variance, so other factors not measured can also affect RAM  usage
+
+Hyperparameter results saved to: results\ram_analysis_combined\analysis_20260121_091157\regression_results_hyperparameters.csv
+Hardware results saved to: results\ram_analysis_combined\analysis_20260121_091157\regression_results_hardware.csv
+Prediction accuracy plot saved to: results\ram_analysis_combined\analysis_20260121_091157\prediction_accuracy.png
+Residual plot saved to: results\ram_analysis_combined\analysis_20260121_091157\residual_plot.png
+Trained model saved to: results\ram_analysis_combined\analysis_20260121_091157\trained_model.pkl
+Analysis log saved to: results\ram_analysis_combined\analysis_20260121_091157\analysis_log_20260121_091157.txt
