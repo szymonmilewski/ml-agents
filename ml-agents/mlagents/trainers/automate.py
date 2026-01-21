@@ -27,7 +27,7 @@ def yaml_to_dict(file_path: str) -> Dict[str,Any]:
         raise
 
 
-
+#FUNCTION: opens a prototype csv file and loads as dict
 def csv_to_dict_list(file_path: str) -> List[Dict[str, Any]]:
     try:
         with open(file_path, newline="", encoding="utf-8") as file:
@@ -45,7 +45,6 @@ def csv_to_dict_list(file_path: str) -> List[Dict[str, Any]]:
                         if value == "":
                             parsed_row[key] = None
                         else:
-                            # Try int → float → fallback to string
                             try:
                                 parsed_row[key] = int(value)
                             except ValueError:
@@ -56,7 +55,7 @@ def csv_to_dict_list(file_path: str) -> List[Dict[str, Any]]:
 
                 rows.append(parsed_row)
 
-        print("Loaded CSV to list-of-dicts.")
+        print("Loaded CSV to setting of dict.")
         return rows
 
     except Exception:
@@ -64,7 +63,7 @@ def csv_to_dict_list(file_path: str) -> List[Dict[str, Any]]:
         traceback.print_exc()
         raise
 
-
+#FUNCTION: to be able to trace the step where we reached the benchmark or the closest to the benchmark
 def find_step_at_or_closest_to_benchmark(
     rows,
     benchmark_reward,
@@ -99,7 +98,6 @@ def find_step_at_or_closest_to_benchmark(
     if best_row is not None:
         return best_row[step_key], best_row[mean_key], False
 
-    # No usable metrics at all
     return -1, None, False
 
 

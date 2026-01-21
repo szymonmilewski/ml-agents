@@ -12,7 +12,7 @@ def extract_metrics(run_id: str, output_csv: str = "prototype.csv", summary_freq
     event_files = glob.glob(os.path.join(logdir, "**", "events.out.tfevents.*"), recursive=True)
 
     if not event_files:
-        raise FileNotFoundError(f"No tensorboard files were found under: {logdir}")
+        raise FileNotFoundError(f"No tensorboard log files were found under: {logdir}")
 
     ea = event_accumulator.EventAccumulator(event_files[0])
     ea.Reload()
