@@ -117,10 +117,21 @@ def main():
     log_and_print(f"Combined CSV saved to: {combined_csv_path}")
 
     # Run unified analysis on combined data
-    log_and_print("Unified LinReg Analysis")
-
-    analyze_ram_usage(str(combined_csv_path), output_dir=str(output_dir))
-
+    log_and_print("\n" + "="*80)
+    log_and_print("Unified LinReg Analysis - RAM Usage Percentage (normalized across machines)")
+    log_and_print("="*80)
+    
+    analyze_ram_usage(str(combined_csv_path), output_dir=str(output_dir), use_percentage=True)
+    
+    log_and_print("\n" + "="*80)
+    log_and_print("For comparison: Analysis using absolute RAM (MB)")
+    log_and_print("="*80)
+    
+    # Create subfolder for absolute analysis
+    absolute_output_dir = output_dir / "absolute_ram_analysis"
+    absolute_output_dir.mkdir(exist_ok=True)
+    analyze_ram_usage(str(combined_csv_path), output_dir=str(absolute_output_dir), use_percentage=False)
+    
     # Correlation matrix for numeric columns
     log_and_print("Correlation analysis")
 

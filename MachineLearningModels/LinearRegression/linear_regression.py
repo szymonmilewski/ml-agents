@@ -16,7 +16,7 @@ from datetime import datetime
 
 # Then, predict the RAM for a config with "python linear_regression.py --predict <config.yaml> [model.pkl]"
 
-def analyze_ram_usage(csv_path, output_dir=None):
+def analyze_ram_usage(csv_path, output_dir=None, use_percentage=False):
     # Load data
     df = pd.read_csv(csv_path)
     
@@ -52,10 +52,33 @@ def analyze_ram_usage(csv_path, output_dir=None):
     hp_cols = [col for col in df.columns if col not in hw_cols and col not in result_cols]
     log_and_print(f"Hyperparameters found: {hp_cols}\n")
     
-    # Prep data. Get only numeric hyperparameters
-    X = df[hp_cols].select_dtypes(include=[np.number])
-    X = X.loc[:, X.nunique() > 1]  # Remove constant columns (bc we only want to see the impact of the varying hyperparams)
-    y = df["ram_mb_used"]
+    # Extract hardware features for controlling for different machines
+    hw_features = ["ram_gb", "has_nvidia"]
+    hw_available = [col for col in hw_features if col in df.columns]
+    
+    # Prep data. Get numeric hyperparameters AND hardware features
+    X_hp = df[hp_cols].select_dtypes(include=[np.number])
+    X_hp = X_hp.loc[:, X_hp.nunique() > 1]
+    
+    # Add hardware features
+    X_hw = df[hw_available].select_dtypes(include=[np.number])
+    X_hw = X_hw.loc[:, X_hw.nunique() > 1]
+    
+    # Combine hyperparameters and hardware into one feature set
+    X = pd.concat([X_hp, X_hw], axis=1)
+    
+    # Choose target variable
+    if use_percentage:
+        if "ram_usage_percent" not in df.columns:
+            log_and_print("Error: ram_usage_percent column not found in data")
+            return
+        y = df["ram_usage_percent"]
+        target_name = "RAM Usage %"
+        target_unit = "%"
+    else:
+        y = df["ram_mb_used"]
+        target_name = "RAM Usage"
+        target_unit = "MB"
     
     # Remove NaN rows
     mask = ~(X.isna().any(axis=1) | y.isna())
@@ -65,7 +88,8 @@ def analyze_ram_usage(csv_path, output_dir=None):
         log_and_print("No varying hyperparameters found")
         return
     
-    log_and_print(f"Analyzing: {list(X.columns)}")
+    log_and_print(f"Analyzing hyperparameters: {list(X_hp.columns)}")
+    log_and_print(f"Controlling for hardware: {list(X_hw.columns)}")
     log_and_print(f"Samples: {len(X)}\n")
     
     # Standardize features using scikit StandardScaler -> calculates mean and standard deviation of each hyperparam in training data
@@ -93,21 +117,31 @@ def analyze_ram_usage(csv_path, output_dir=None):
         std_errors = [np.nan] * k
         p_values = [np.nan] * k
     
-    # Create results
-    results = pd.DataFrame({
-        'Hyperparameter': X.columns,
-        'Coefficient': model.coef_,
-        'P_Value': p_values,
-        'Significant': [p < 0.05 if not pd.isna(p) else False for p in p_values]
+    # Create results - separate hyperparameters from hardware controls
+    hp_indices = [i for i, col in enumerate(X.columns) if col in X_hp.columns]
+    hw_indices = [i for i, col in enumerate(X.columns) if col in X_hw.columns]
+    
+    results_hp = pd.DataFrame({
+        'Hyperparameter': [X.columns[i] for i in hp_indices],
+        'Coefficient': [model.coef_[i] for i in hp_indices],
+        'P_Value': [p_values[i] for i in hp_indices],
+        'Significant': [p_values[i] < 0.05 if not pd.isna(p_values[i]) else False for i in hp_indices]
+    }).sort_values('Coefficient', key=abs, ascending=False)
+    
+    results_hw = pd.DataFrame({
+        'Hardware': [X.columns[i] for i in hw_indices],
+        'Coefficient': [model.coef_[i] for i in hw_indices],
+        'P_Value': [p_values[i] for i in hw_indices],
+        'Significant': [p_values[i] < 0.05 if not pd.isna(p_values[i]) else False for i in hw_indices]
     }).sort_values('Coefficient', key=abs, ascending=False)
     
     # Print summary
-    log_and_print(f"Linreg analysis of RAM Usage Prediction")
+    log_and_print(f"Linreg analysis of {target_name} Prediction")
     
     # Prediction accuracy
     log_and_print(f"\nPrediction accuracy:")
     log_and_print(f"  R-squared: {r2:.4f}")
-    log_and_print(f"  So, the model explains {r2*100:.1f}% of variance in RAM usage")
+    log_and_print(f"  So, the model explains {r2*100:.1f}% of variance in {target_name}")
     
     # Check R2 to determine how strong the predictive power of the model (so with the varying hyperparams' impact on RAM usage)
     if r2 >= 0.7:
@@ -128,32 +162,41 @@ def analyze_ram_usage(csv_path, output_dir=None):
         sign = "+" if coef_unscaled >= 0 else ""
         formula_parts.append(f"{sign}{coef_unscaled:.2f}*{col}")
     
-    # Print out the forumala of the prediciton
-    log_and_print(f"  RAM (MB) = {' '.join(formula_parts)}")
+    # Print out the formula of the prediction
+    log_and_print(f"  {target_name} ({target_unit}) = {' '.join(formula_parts)}")
     
-    # Coefficient table (to check which are significant or not)
-    log_and_print(f"\nHyperparam effects:")
+    # Coefficient table - now show both hyperparameters AND hardware
+    log_and_print(f"\nHyperparameter effects (controlling for hardware):")
     log_and_print(f"{'Hyperparameter':<20} {'Coefficient':>12} {'P-Value':>12} {'Sig':>5}")
     log_and_print("-"*70)
     
-    for _, row in results.iterrows():
+    for _, row in results_hp.iterrows():
         p_str = f"{row['P_Value']:.4f}" if not pd.isna(row['P_Value']) else "N/A"
         sig = "***" if row['P_Value'] < 0.001 else "**" if row['P_Value'] < 0.01 else "*" if row['P_Value'] < 0.05 else ""
         log_and_print(f"{row['Hyperparameter']:<20} {row['Coefficient']:>12.2f} {p_str:>12} {sig:>5}")
     
+    log_and_print("\n\nHardware control variables:")
+    log_and_print(f"{'Hardware':<20} {'Coefficient':>12} {'P-Value':>12} {'Sig':>5}")
+    log_and_print("-"*70)
+    
+    for _, row in results_hw.iterrows():
+        p_str = f"{row['P_Value']:.4f}" if not pd.isna(row['P_Value']) else "N/A"
+        sig = "***" if row['P_Value'] < 0.001 else "**" if row['P_Value'] < 0.01 else "*" if row['P_Value'] < 0.05 else ""
+        log_and_print(f"{row['Hardware']:<20} {row['Coefficient']:>12.2f} {p_str:>12} {sig:>5}")
+    
     log_and_print("\nSignificance: *** p<0.001, ** p<0.01, * p<0.05")
     
-    # Summarize the significancy of the variables
-    significant = results[results['Significant']]
+    # Summarize the significancy - update to use results_hp
+    significant = results_hp[results_hp['Significant']]
     if len(significant) > 0:
-        log_and_print(f"\nSignificant variables (p < 0.05):")
+        log_and_print(f"\nSignificant hyperparameters (p < 0.05), after controlling for hardware:")
         for _, row in significant.iterrows():
             effect = "Increases" if row['Coefficient'] > 0 else "Decreases"
             log_and_print(f"  {row['Hyperparameter']}: {effect} RAM usage")
             log_and_print(f"  Coefficient: {row['Coefficient']:.2f} MB per unit")
     else:
-        log_and_print("\nNo significant effects found (p >= 0.05)")
-        log_and_print("  -> Neither of the varying hyperparameters affects RAM usage significantly")
+        log_and_print("\nNo significant hyperparameter effects found (p >= 0.05)")
+        log_and_print("  -> Hyperparameters don't significantly affect RAM usage (after accounting for hardware)")
     
     # Answer RAM research Q based on R2
     log_and_print(f"Can we predict the average amount of RAM used during agent training?")
@@ -166,24 +209,23 @@ def analyze_ram_usage(csv_path, output_dir=None):
         log_and_print(f"  -> No, because the model only explains {r2*100:.1f}% of variance, so these tested hyperparameters can't predict well the RAM usage")
     
     # Save results
-    results.to_csv(output_dir / "regression_results.csv", index=False)
-    log_and_print(f"\nResults were saved to: {output_dir / 'regression_results.csv'}")
+    results_hp.to_csv(output_dir / "regression_results_hyperparameters.csv", index=False)
+    results_hw.to_csv(output_dir / "regression_results_hardware.csv", index=False)
+    log_and_print(f"\nHyperparameter results saved to: {output_dir / 'regression_results_hyperparameters.csv'}")
+    log_and_print(f"Hardware results saved to: {output_dir / 'regression_results_hardware.csv'}")
     
-    # Plot 1: Actual vs Predicted (RAM usage) - using a scatter plot
-    # the points close to the red diagonal line = accurate predictions
-    # obviously, the more scatter, the less accurate the prediction
-    
+    # Plot 1: Actual vs Predicted
     plt.figure(figsize=(8, 7))
     plt.scatter(y, y_pred, alpha=0.6, s=100, edgecolors='black', linewidth=0.5)
     min_val = min(y.min(), y_pred.min())
     max_val = max(y.max(), y_pred.max())
     plt.plot([min_val, max_val], [min_val, max_val], 'r--', linewidth=2, 
              label='Perfect Prediction', alpha=0.7)
-    mae = np.mean(np.abs(y - y_pred)) #calculate, display mean abs error
+    mae = np.mean(np.abs(y - y_pred))
     
-    plt.xlabel('Actual RAM Usage (MB)', fontsize=12)
-    plt.ylabel('Predicted RAM Usage (MB)', fontsize=12)
-    plt.title(f'RAM Usage Prediction Accuracy\nR² = {r2:.3f}, Mean Error = {mae:.0f} MB', 
+    plt.xlabel(f'Actual {target_name} ({target_unit})', fontsize=12)
+    plt.ylabel(f'Predicted {target_name} ({target_unit})', fontsize=12)
+    plt.title(f'{target_name} Prediction Accuracy\nR² = {r2:.3f}, Mean Error = {mae:.1f} {target_unit}', 
               fontsize=13, fontweight='bold')
     plt.legend(fontsize=11)
     plt.grid(alpha=0.3, linestyle='--')
@@ -196,18 +238,14 @@ def analyze_ram_usage(csv_path, output_dir=None):
     plt.show()
     
     
-    # Plot 2: Residual Plot (that shows prediction errors)
-    # residuals = actual - predicted
-    # if the points are scattered randomly around zero, it's a good model (-> no systematic bias).
-    # if there are patterns, the model's missing sth
-    
+    # Plot 2: Residual Plot
     plt.figure(figsize=(8, 6))
     residuals = y - y_pred
     plt.scatter(y_pred, residuals, alpha=0.6, s=80, edgecolors='black', linewidth=0.5)
-    plt.axhline(y=0, color='r', linestyle='--', linewidth=2, alpha=0.7) #reference line
+    plt.axhline(y=0, color='r', linestyle='--', linewidth=2, alpha=0.7)
     
-    plt.xlabel('Predicted RAM Usage (MB)', fontsize=12)
-    plt.ylabel('Residual (Actual - Predicted, MB)', fontsize=12)
+    plt.xlabel(f'Predicted {target_name} ({target_unit})', fontsize=12)
+    plt.ylabel(f'Residual (Actual - Predicted, {target_unit})', fontsize=12)
     plt.title('Residual Plot - Prediction Errors', fontsize=13, fontweight='bold')
     plt.grid(alpha=0.3, linestyle='--')
     plt.tight_layout()
@@ -218,13 +256,14 @@ def analyze_ram_usage(csv_path, output_dir=None):
     log_and_print(f"Residual plot saved to: {plot2_path}")
     plt.show()
     
-    # Save trained model for prediction
+    # Save trained model
     model_data = {
         'model': model,
         'scaler': scaler,
         'feature_columns': list(X.columns),
         'target_mean': y.mean(),
-        'r2_score': r2
+        'r2_score': r2,
+        'target_type': 'percentage' if use_percentage else 'absolute'
     }
     
     model_path = output_dir / "trained_model.pkl"
@@ -237,10 +276,10 @@ def analyze_ram_usage(csv_path, output_dir=None):
 
 
 # This is for the Ram prediction based on a specific YAML config file
-def predict_ram_for_config(config_path, model_path=None):
+def predict_ram_for_config(config_path, model_path=None, ram_gb=None, has_nvidia=None):
     # config_path is the path to YAML config file
     # model_path is optional, but it's the path to trained model pickle file
-    # we use pickle file to store trained LR model, standardScaler, feature list, R2 score in a single file -> so we can load this single file and then use it for consistent predictions
+    # ram_gb and has_nvidia are optional hardware specs for prediction
     
     config_path = Path(config_path)
     
@@ -303,6 +342,14 @@ def predict_ram_for_config(config_path, model_path=None):
     missing_features = []
     
     for feature in feature_columns:
+        # Check if it's a hardware feature that was provided as argument
+        if feature == 'ram_gb' and ram_gb is not None:
+            config_features[feature] = ram_gb
+            continue
+        elif feature == 'has_nvidia' and has_nvidia is not None:
+            config_features[feature] = 1 if has_nvidia else 0
+            continue
+        
         found = False
         for flat_key, flat_value in flat_config.items():
             if flat_key.endswith(f"_{feature}") or flat_key == feature:
@@ -319,6 +366,8 @@ def predict_ram_for_config(config_path, model_path=None):
     
     if missing_features:
         print(f"\nWarning: there are missing features in config: {missing_features}")
+        if 'ram_gb' in missing_features or 'has_nvidia' in missing_features:
+            print("Tip: Provide hardware specs with: --ram-gb <value> --has-nvidia <true/false>")
         print("These will be set to 0 , which may affect the accuracy of the prediction.")
         
     # Build the feature vector with same order of values as in the training model
@@ -386,12 +435,30 @@ if __name__ == "__main__":
     if sys.argv[1] == "--predict":
         if len(sys.argv) < 3:
             print("Error: Please provide config file path")
-            print("Usage: python linear_regression.py --predict <config.yaml> [model.pkl]")
+            print("Usage: python linear_regression.py --predict <config.yaml> [model.pkl] [--ram-gb X] [--has-nvidia true/false]")
             sys.exit(1)
         
         config_path = sys.argv[2]
-        model_path = sys.argv[3] if len(sys.argv) > 3 else None
-        predict_ram_for_config(config_path, model_path)
+        model_path = None
+        ram_gb = None
+        has_nvidia = None
+        
+        # Parse additional arguments
+        i = 3
+        while i < len(sys.argv):
+            if sys.argv[i] == '--ram-gb' and i + 1 < len(sys.argv):
+                ram_gb = float(sys.argv[i + 1])
+                i += 2
+            elif sys.argv[i] == '--has-nvidia' and i + 1 < len(sys.argv):
+                has_nvidia = sys.argv[i + 1].lower() in ['true', '1', 'yes']
+                i += 2
+            elif not sys.argv[i].startswith('--'):
+                model_path = sys.argv[i]
+                i += 1
+            else:
+                i += 1
+        
+        predict_ram_for_config(config_path, model_path, ram_gb, has_nvidia)
     else:
         # Original analysis mode
         csv_path = Path(sys.argv[1])
