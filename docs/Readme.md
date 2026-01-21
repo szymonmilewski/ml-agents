@@ -18,7 +18,12 @@ Navigate to the *MachineLearningModels* directory in the repository.
 <br>
 
 ### RandomForestClassifier
-Select the corresponding folder in the directory and enter the .py file. If you wish to run the data on a whole directory, copy its absolute path and paste it into the "path" list object at the top of the file. If you wish to run the classifier on just a couple files, copy each file's absolute path and paste it into the list using a comma separator. Then, run the application.
+Open the terminal and navigate to the *randomforest.py* file. Run the which python or which python3 command, in order to check the Python version that you have installed on your system. Then, run the following 
+command (remember about the correct python version in the beginning of the command):
+<br>
+*python3 randomforest.py path*
+<br> 
+*Path* is the path to the dataset that you want to train and evaluate the classifier on. It can be a path to a directory, a single file or you can even paste multiple file paths one after another, separated by a space. 
 
 ### Linear Regression
 Enter the LinearRegression folder. You can choose whether you want to train the linear regression model based on a single data file or across multiple files (multiple training runs).
