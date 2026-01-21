@@ -17,11 +17,47 @@ Navigate to the game example scene that you want to collect data from. Then, go 
 Navigate to the *MachineLearningModels* directory in the repository.
 <br>
 
-**RandomForestClassifier** - select the corresponding folder in the directory and enter the .py file. If you wish to run the data on a whole directory, copy its absolute path and paste it into the "path" list object at the top of the file. If you wish to run the classifier on just a couple files, copy each file's absolute path and paste it into the list using a comma separator. Then, run the application.
+### RandomForestClassifier
+Select the corresponding folder in the directory and enter the .py file. If you wish to run the data on a whole directory, copy its absolute path and paste it into the "path" list object at the top of the file. If you wish to run the classifier on just a couple files, copy each file's absolute path and paste it into the list using a comma separator. Then, run the application.
 
-**Linear Regression** - 
+### Linear Regression
+Enter the LinearRegression folder. You can choose whether you want to train the linear regression model based on a single data file or across multiple files (multiple training runs).
 
-**Multi-Layer Perceptron** - Enter the MLP Algorithm directory. Depending on your python version, the command will begin either with python or python3. The command is as follows: 
+If you want to analyze a single training session and when you want to predict a YAML file's expected RAM usage, run linear_regression.py.
+If you want to combine multiple training runs and create a model based on those, use linear_regression_batch.py.
+
+The **linear_regression.py** script analyzes RAM usage patterns during training runs and predicts RAM usage for a new configuration. 
+To use, first train a linear regression model on a CSV file containing training data, with the command:
+
+*python linear_regression.py <path_to_training_data.csv>*
+
+You can use the *--percentage* flag if you wish to use RAM percentage instead of MBs
+This will create a *ram_analysis/* directory with the trained model for predictions (*trained_model.pkl*), hyperparameter effects (*regression_results_hyperparameters.csv*), hardware control variables (*regression_results_hardware.csv*), visualization of prediction accuracy (*prediction_accuracy.png*), visualization of errors (*residual_plot.png*), and a full analysis report (*analysis_log_YYYYMMDD_HHMMSS.txt*)
+
+Then you can predict RAM for a specific YAML configuration with:
+
+*python linear_regression.py --predict <config.yaml> [model.pkl] [--ram-gb X] [--has-nvidia true/false]*
+
+The *--ram-gb X* is an optional flag for inputting the RAM of the target machine in GBs.
+The *--has-nvidia true/false* is an optional flag to enter if the target machine has Nvidia GPU.
+
+The output of the prediction is the predicted RAM usage in MB and GB, the model confidence (R-squared score), the top 5 feature contributions.
+The prediction is saved to *ram_predictions/<config_name>_prediction.txt*
+
+The **linear_regression_batch.py** differs from the linear_regression.py because it combines multiple CSV files from different training runs to a single analysis. It is only used for training the model and not for prediction.
+For an input, it takes the path to a folder containing all the CSV files you want to train the model on.
+
+Use it with: 
+*python linear_regression_batch.py <folder_path>*
+
+It creates a *results/ram_analysis_combined/analysis_YYYYMMDD_HHMMSS* folder, with trained_model.pkl, all CVSs merged together (*combined_runs.csv*), hyperparameter effects, hardware control variables, correlation of features and RAM usage (*ram_correlations.csv*), correlation_matrix.csv, visualizations of prediction_accuracy.png and residual_plot.png, summary of the files combined (*run_metadata.txt*), full analysis report (*batch_analysis_log_YYYYMMDD_HHMMSS.txt*), MB-based analysis' subfolder (*absolute_ram_analysis/*)
+
+To predict with a batch-trained model, use the linear_regression script in the following way:
+*python linear_regression.py --predict <config.yaml> results/ram_analysis_combined/analysis_YYYYMMDD_HHMMSS/trained_model.pkl*
+
+
+### Multi-Layer Perceptron
+Enter the MLP Algorithm directory. Depending on your python version, the command will begin either with python or python3. The command is as follows: 
 <br>
 
 *python3 mlp_algorithm.py source destination*
