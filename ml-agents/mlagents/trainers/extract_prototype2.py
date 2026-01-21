@@ -4,7 +4,7 @@ import pandas as pd
 from tensorboard.backend.event_processing import event_accumulator
 from pathlib import Path
 
-FILE_PATH = Path(__file__).resolve() 
+FILE_PATH = Path(__file__).resolve()
 REPO = FILE_PATH.parents[3]
 
 def extract_metrics(run_id: str, output_csv: str = "prototype.csv", summary_freq: int = 2000):
@@ -12,7 +12,7 @@ def extract_metrics(run_id: str, output_csv: str = "prototype.csv", summary_freq
     event_files = glob.glob(os.path.join(logdir, "**", "events.out.tfevents.*"), recursive=True)
 
     if not event_files:
-        raise FileNotFoundError(f"No TensorBoard event files found under {logdir}")
+        raise FileNotFoundError(f"No tensorboard files were found under: {logdir}")
 
     ea = event_accumulator.EventAccumulator(event_files[0])
     ea.Reload()
@@ -45,7 +45,7 @@ def extract_metrics(run_id: str, output_csv: str = "prototype.csv", summary_freq
     out_path = os.path.join(logdir, output_csv)
     summary.to_csv(out_path, index=False)
 
-    print(f"✓ CSV saved: {out_path}")
+    print(f"CSV saved at: {out_path}")
     return out_path
 
 
