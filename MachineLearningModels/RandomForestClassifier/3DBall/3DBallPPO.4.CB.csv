@@ -1,0 +1,21 @@
+ID,cpu_type,cpu_freqcpu_cores,ram_gb,has_nvidia,nvidia_gpu_name,nvidia_vram_gb,os,batch_size,buffer_size,learning_rate,beta,epsilon,lambd,num_epoch,learning_rate_schedule,ram_mb_used,ram_usage_percent,ram_avg_percent,benchmark_steps,benchmark_mean,benchmark_reached
+3DBallPPO.4.CB.1,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,32,1200,0.0003,0.001,0.2,0.99,3,linear,15494.98,48.1,47.27,12000,2.199,True
+3DBallPPO.4.CB.10,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,32,2400,0.0003,0.001,0.2,0.99,7,linear,15658.41,44.3,46.6,12000,3.366,True
+3DBallPPO.4.CB.11,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,64,1200,0.0003,0.001,0.2,0.99,3,linear,14502.77,44.7,44.66,12000,3.256,True
+3DBallPPO.4.CB.12,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,64,1200,0.0003,0.001,0.2,0.99,4,linear,14965.57,46.2,46.15,12000,4.043,True
+3DBallPPO.4.CB.13,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,64,1200,0.0003,0.001,0.2,0.99,5,linear,14823.89,46.3,46.21,12000,3.48,True
+3DBallPPO.4.CB.14,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,64,1200,0.0003,0.001,0.2,0.99,6,linear,14935.93,46.5,46.35,12000,3.701,True
+3DBallPPO.4.CB.15,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,64,1200,0.0003,0.001,0.2,0.99,7,linear,15074.6,46.7,46.61,12000,3.922,True
+3DBallPPO.4.CB.16,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,64,2400,0.0003,0.001,0.2,0.99,3,linear,14992.36,46.8,46.75,12000,2.681,True
+3DBallPPO.4.CB.17,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,64,2400,0.0003,0.001,0.2,0.99,4,linear,15226.09,47.3,46.87,12000,2.631,True
+3DBallPPO.4.CB.18,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,64,2400,0.0003,0.001,0.2,0.99,5,linear,15150.06,47.4,47.3,12000,2.577,True
+3DBallPPO.4.CB.19,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,64,2400,0.0003,0.001,0.2,0.99,6,linear,15171.89,47.2,47.25,12000,2.883,True
+3DBallPPO.4.CB.2,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,32,1200,0.0003,0.001,0.2,0.99,4,linear,15224.07,47.4,47.28,12000,3.415,True
+3DBallPPO.4.CB.20,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,64,2400,0.0003,0.001,0.2,0.99,7,linear,15169.54,47.4,47.23,12000,3.067,True
+3DBallPPO.4.CB.3,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,32,1200,0.0003,0.001,0.2,0.99,5,linear,15777.4,47.7,47.55,12000,4.212,True
+3DBallPPO.4.CB.4,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,32,1200,0.0003,0.001,0.2,0.99,6,linear,15295.46,47.5,47.59,12000,4.216,True
+3DBallPPO.4.CB.5,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,32,1200,0.0003,0.001,0.2,0.99,7,linear,15453.05,47.8,47.75,12000,4.649,True
+3DBallPPO.4.CB.6,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,32,2400,0.0003,0.001,0.2,0.99,3,linear,15312.8,47.7,47.69,12000,2.656,True
+3DBallPPO.4.CB.7,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,32,2400,0.0003,0.001,0.2,0.99,4,linear,15498.11,48.2,47.81,12000,2.959,True
+3DBallPPO.4.CB.8,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,32,2400,0.0003,0.001,0.2,0.99,5,linear,15449.77,48.1,48.24,12000,3.018,True
+3DBallPPO.4.CB.9,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,32,2400,0.0003,0.001,0.2,0.99,6,linear,15598.98,48.5,48.26,12000,3.097,True
