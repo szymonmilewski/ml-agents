@@ -1,0 +1,11 @@
+ID,cpu_type,cpu_freqcpu_cores,ram_gb,has_nvidia,nvidia_gpu_name,nvidia_vram_gb,os,batch_size,buffer_size,learning_rate,beta,epsilon,lambd,num_epoch,learning_rate_schedule,ram_mb_used,ram_usage_percent,ram_avg_percent,benchmark_steps,benchmark_mean,benchmark_reached
+BasicPP0Epsilon.6.SS.1,Apple M4,unknown,10,16.0,False,,,Darwin,128,256,0.0003,0.005,0.04,0.95,3,linear,6377.58,75.6,78.58,48000,0.93,True
+BasicPP0Epsilon.6.SS.10,Apple M4,unknown,10,16.0,False,,,Darwin,128,256,0.0003,0.005,0.06,0.95,7,linear,6594.12,80.1,78.32,24000,0.93,True
+BasicPP0Epsilon.6.SS.2,Apple M4,unknown,10,16.0,False,,,Darwin,128,256,0.0003,0.005,0.04,0.95,4,linear,6426.25,80.2,79.07,44000,0.93,True
+BasicPP0Epsilon.6.SS.3,Apple M4,unknown,10,16.0,False,,,Darwin,128,256,0.0003,0.005,0.04,0.95,5,linear,6282.89,82.4,81.09,32000,0.93,True
+BasicPP0Epsilon.6.SS.4,Apple M4,unknown,10,16.0,False,,,Darwin,128,256,0.0003,0.005,0.04,0.95,6,linear,6417.61,80.5,80.48,28000,0.93,True
+BasicPP0Epsilon.6.SS.5,Apple M4,unknown,10,16.0,False,,,Darwin,128,256,0.0003,0.005,0.04,0.95,7,linear,5989.64,81.8,80.8,28000,0.93,True
+BasicPP0Epsilon.6.SS.6,Apple M4,unknown,10,16.0,False,,,Darwin,128,256,0.0003,0.005,0.06,0.95,3,linear,6592.17,73.7,80.24,48000,0.93,True
+BasicPP0Epsilon.6.SS.7,Apple M4,unknown,10,16.0,False,,,Darwin,128,256,0.0003,0.005,0.06,0.95,4,linear,6400.31,80.4,78.87,40000,0.93,True
+BasicPP0Epsilon.6.SS.8,Apple M4,unknown,10,16.0,False,,,Darwin,128,256,0.0003,0.005,0.06,0.95,5,linear,5922.42,82.0,81.54,34000,0.93,True
+BasicPP0Epsilon.6.SS.9,Apple M4,unknown,10,16.0,False,,,Darwin,128,256,0.0003,0.005,0.06,0.95,6,linear,6027.91,78.6,79.7,26000,0.93,True
