@@ -45,7 +45,6 @@ def extract_metrics(run_id: str, output_csv: str = "prototype.csv", summary_freq
     out_path = os.path.join(logdir, output_csv)
     summary.to_csv(out_path, index=False)
 
-    print(f"CSV saved at: {out_path}")
     return out_path
 
 
@@ -58,7 +57,5 @@ if __name__ == "_main_":
 
     output_csv = sys.argv[2] if len(sys.argv) > 2 else "prototype.csv"
 
-    print(f"Extracting metrics from run: {run_id}")
-    print(f"Output file: {output_csv}\n")
 
     extract_metrics(run_id, output_csv)
