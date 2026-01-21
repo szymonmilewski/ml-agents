@@ -5,11 +5,10 @@
 The results of our experiments are easily reproducible using the code provided in the repository. All of our data was gathered using our automatic data collection script, as the models take an incredibly long time to train and they need data somewhat representative of the real world.
 
 ## In order to run our own automated data collection framework:
-Navigate to the game example scene that you want to collect data from. Then, go to Unity -> Build Settings and select your platform (Intel, macOS Apple Silicon, macOS Intel, AMD...). Click Build, and select a directory where the build will be stored. Then, run the following commands in your terminal (you must be in the repository directory):
+Navigate to the game example scene that you want to collect data from. Then, go to Unity -> Build Settings and select your platform (Intel, macOS Apple Silicon, macOS Intel, AMD...). Click Build, and select a directory where the build will be stored. Then, run the following commands in your terminal (you must be in the *trainers* directory and first term of the command might vary depending on the installed Python version):
 <br>
-**macOS:**
-
-**Windows:**
+python automate.py *path_to_yaml* *run_name* *benchmark_reward (float)* *path_to_unity_build*
+<br>
 
 
 
