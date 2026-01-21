@@ -165,7 +165,7 @@ def analyze_ram_usage(csv_path, output_dir=None, use_percentage=False):
     # Print out the formula of the prediction
     log_and_print(f"  {target_name} ({target_unit}) = {' '.join(formula_parts)}")
     
-    # Coefficient table - now show both hyperparameters AND hardware
+    # Coefficient table - shows both hyperparameters AND hardware
     log_and_print(f"\nHyperparameter effects (controlling for hardware):")
     log_and_print(f"{'Hyperparameter':<20} {'Coefficient':>12} {'P-Value':>12} {'Sig':>5}")
     log_and_print("-"*70)
@@ -186,7 +186,7 @@ def analyze_ram_usage(csv_path, output_dir=None, use_percentage=False):
     
     log_and_print("\nSignificance: *** p<0.001, ** p<0.01, * p<0.05")
     
-    # Summarize the significancy - update to use results_hp
+    # Summarize the significancy - updated to use results_hp
     significant = results_hp[results_hp['Significant']]
     if len(significant) > 0:
         log_and_print(f"\nSignificant hyperparameters (p < 0.05), after controlling for hardware:")
@@ -428,8 +428,8 @@ def predict_ram_for_config(config_path, model_path=None, ram_gb=None, has_nvidia
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage:")
-        print("  Train model: python linear_regression.py <path_to_csv>")
-        print("  Predict RAM: python linear_regression.py --predict <config.yaml> [model.pkl]")
+        print("  Train model: python linear_regression.py <path_to_csv> [--percentage]")
+        print("  Predict RAM: python linear_regression.py --predict <config.yaml> [model.pkl] [--ram-gb X] [--has-nvidia true/false]")
         sys.exit(1)
     
     if sys.argv[1] == "--predict":
