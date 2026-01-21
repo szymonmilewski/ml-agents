@@ -1,0 +1,17 @@
+ID,cpu_type,cpu_freqcpu_cores,ram_gb,has_nvidia,nvidia_gpu_name,nvidia_vram_gb,os,batch_size,buffer_size,learning_rate,beta,epsilon,lambd,num_epoch,learning_rate_schedule,ram_mb_used,ram_usage_percent,ram_avg_percent,benchmark_steps,benchmark_mean,benchmark_reached
+3DBallPPO.9.CB.1,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,32,600,0.5,0.001,0.2,0.99,2,linear,15937.98,49.9,49.7,24000,0.668,False
+3DBallPPO.9.CB.10,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,64,600,0.5,0.001,0.2,0.99,3,linear,15900.94,49.8,49.73,12000,0.359,False
+3DBallPPO.9.CB.11,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,64,600,0.0003,0.001,0.2,0.99,2,linear,15896.75,49.7,49.72,12000,1.565,True
+3DBallPPO.9.CB.12,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,64,600,0.0003,0.001,0.2,0.99,3,linear,15913.25,49.8,49.79,12000,2.14,True
+3DBallPPO.9.CB.13,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,64,1200,0.5,0.001,0.2,0.99,2,linear,15910.52,49.8,49.77,12000,0.501,False
+3DBallPPO.9.CB.14,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,64,1200,0.5,0.001,0.2,0.99,3,linear,15914.4,49.7,49.77,24000,0.704,False
+3DBallPPO.9.CB.15,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,64,1200,0.0003,0.001,0.2,0.99,2,linear,15896.08,49.8,49.72,12000,1.615,True
+3DBallPPO.9.CB.16,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,64,1200,0.0003,0.001,0.2,0.99,3,linear,15981.49,50.0,49.93,12000,2.123,True
+3DBallPPO.9.CB.2,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,32,600,0.5,0.001,0.2,0.99,3,linear,15957.71,50.0,49.91,12000,0.453,False
+3DBallPPO.9.CB.3,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,32,600,0.0003,0.001,0.2,0.99,2,linear,15939.59,49.7,49.79,12000,2.051,True
+3DBallPPO.9.CB.4,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,32,600,0.0003,0.001,0.2,0.99,3,linear,15921.36,49.7,49.76,12000,2.73,True
+3DBallPPO.9.CB.5,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,32,1200,0.5,0.001,0.2,0.99,2,linear,15944.46,49.9,49.86,12000,0.535,False
+3DBallPPO.9.CB.6,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,32,1200,0.5,0.001,0.2,0.99,3,linear,15912.46,49.8,49.75,24000,0.718,False
+3DBallPPO.9.CB.7,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,32,1200,0.0003,0.001,0.2,0.99,2,linear,15927.98,49.8,49.81,12000,1.857,True
+3DBallPPO.9.CB.8,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,32,1200,0.0003,0.001,0.2,0.99,3,linear,15941.65,49.9,49.8,12000,2.448,True
+3DBallPPO.9.CB.9,AMD Ryzen 9 7945HX with Radeon Graphics,2.5,32,31,1,NVIDIA GeForce RTX 4060 Laptop GPU,8.0,Windows,64,600,0.5,0.001,0.2,0.99,2,linear,15938.0,49.9,49.87,12000,0.483,False
